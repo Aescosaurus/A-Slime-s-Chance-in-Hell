@@ -25,6 +25,7 @@
 #include "ChiliException.h"
 #include "Colors.h"
 #include "Vec2.h"
+#include "Surface.h"
 
 class Graphics
 {
@@ -57,10 +58,26 @@ public:
 	{
 		PutPixel( x,y,{ unsigned char( r ),unsigned char( g ),unsigned char( b ) } );
 	}
+	void PutPixelAlpha( int x,int y,Color c,float alpha );
 	void PutPixel( int x,int y,Color c );
 	void DrawRect( int x,int y,int width,int height,Color c );
 	void DrawCircle( const Vei2& pos,int radius,Color c );
 	void DrawLine( Vec2 p0,Vec2 p1,Color c );
+
+	template<typename Effect>
+	void DrawSprite( int x,int y,const Surface& s,
+		Effect eff )
+	{
+		for( int sy = 0; sy < s.GetHeight(); ++sy )
+		{
+			for( int sx = 0; sx < s.GetWidth(); ++sx )
+			{
+				eff( s.GetPixel( sx,sy ),x + sx,y + sy,*this );
+			}
+		}
+	}
+
+	Color GetPixel( int x,int y ) const;
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;

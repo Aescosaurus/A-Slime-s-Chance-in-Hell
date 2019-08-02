@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 class Timer
 {
 public:
@@ -22,6 +24,11 @@ public:
 	bool IsDone() const
 	{
 		return( curTime >= maxTime );
+	}
+	// Returns 0-1
+	float GetPercent() const
+	{
+		return( std::min( 1.0f,curTime / maxTime ) );
 	}
 private:
 	float maxTime;

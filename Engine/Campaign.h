@@ -8,6 +8,7 @@
 #include "FrameTimer.h"
 #include "ActionType.h"
 #include "Timer.h"
+#include "Torch.h"
 
 class Campaign
 {
@@ -28,6 +29,9 @@ private:
 	Player player;
 	Timer actionTimer = 1.0f;
 	float chargePower = 0.0f;
+	bool jumping = false;
+	bool placingTorch = false;
 	static constexpr float chargeRate = 1.0f;
 	Vec2 diff;
+	Torch torch;
 };

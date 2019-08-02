@@ -16,7 +16,12 @@ void TileMap::Draw( Graphics& gfx ) const
 		for( int x = 0; x < width; ++x )
 		{
 			const auto tile = GetTile( x,y );
-			if( tile != TileType::Air )
+			if( tile == TileType::Air )
+			{
+				gfx.DrawRect( x * tileSize,y * tileSize,
+					tileSize,tileSize,Colors::Cyan );
+			}
+			else if( tile == TileType::Wall )
 			{
 				gfx.DrawRect( x * tileSize,y * tileSize,
 					tileSize,tileSize,Colors::Green );

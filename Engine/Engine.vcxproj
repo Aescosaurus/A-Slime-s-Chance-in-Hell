@@ -139,6 +139,7 @@
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="Campaign.h" />
     <ClInclude Include="ChiliException.h" />
+    <ClInclude Include="ChiliUtils.h" />
     <ClInclude Include="ChiliWin.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Colors.h" />
@@ -149,6 +150,9 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="Rect.h" />
+    <ClInclude Include="SpriteEffect.h" />
+    <ClInclude Include="Surface.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Player.h" />
@@ -156,6 +160,7 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Torch.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
@@ -170,7 +175,9 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Surface.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">

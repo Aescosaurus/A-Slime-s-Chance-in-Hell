@@ -240,6 +240,11 @@ Graphics::Graphics( HWNDKey& key )
 		_aligned_malloc( sizeof( Color ) * Graphics::ScreenWidth * Graphics::ScreenHeight,16u ) );
 }
 
+Color Graphics::GetPixel( int x,int y ) const
+{
+	return( pSysBuffer[y * ScreenWidth + x] );
+}
+
 Graphics::~Graphics()
 {
 	// free sysbuffer memory (aligned free)
@@ -305,6 +310,20 @@ void Graphics::BeginFrame()
 {
 	// clear the sysbuffer
 	memset( pSysBuffer,0u,sizeof( Color ) * Graphics::ScreenHeight * Graphics::ScreenWidth );
+}
+
+void Graphics::PutPixelAlpha( int x,int y,Color c,float alpha )
+{
+	const Color c2 = c;
+	const Color c1 = GetPixel( x,y );
+
+	typedef unsigned char uchar;
+	const Color blend = Colors::MakeRGB(
+		uchar( float( c2.GetR() - c1.GetR() ) * alpha ) + c1.GetR(),
+		uchar( float( c2.GetG() - c1.GetG() ) * alpha ) + c1.GetG(),
+		uchar( float( c2.GetB() - c1.GetB() ) * alpha ) + c1.GetB() );
+
+	PutPixel( x,y,blend );
 }
 
 void Graphics::PutPixel( int x,int y,Color c )

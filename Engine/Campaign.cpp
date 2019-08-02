@@ -30,7 +30,8 @@ void Campaign::Update()
 		if( player.GetColl().Contains( mousePos /
 			TileMap::tileSize ) && !completedAction )
 		{
-			// torch.light()
+			placingTorch = true;
+			chargePower += chargeRate * dt;
 			completedAction = true;
 		}
 
@@ -44,23 +45,36 @@ void Campaign::Update()
 		if( !completedAction )
 		{
 			chargePower += chargeRate * dt;
+			jumping = true;
 			if( chargePower >= 1.0f )
 			{
 				PlayerJump();
+				jumping = false;
 				completedAction = true;
 			}
 		}
 	}
-	else if( chargePower > 0.0f )
+	else if( jumping )
 	{
 		PlayerJump();
+		jumping = false;
 	}
+	if( chargePower > 1.0f && placingTorch )
+	{
+		torch.PlaceTorch( player.GetColl().pos );
+		chargePower = 0.0f;
+	}
+
+	torch.Update( dt );
 }
 
 void Campaign::Draw()
 {
 	map.Draw( gfx );
 	player.Draw( gfx );
+
+
+	torch.Draw( gfx );
 
 	// gfx.DrawLine( player.GetColl().pos * TileMap::tileSize,
 	// 	( player.GetColl().pos + ( diff * chargePower ) ) *

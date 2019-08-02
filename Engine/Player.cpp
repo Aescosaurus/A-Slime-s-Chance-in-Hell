@@ -28,6 +28,7 @@ void Player::Update( float dt )
 	}
 	else
 	{
+		vel.x *= velDecayRate;
 		vel.y = 0.0f;
 		canJump = true;
 	}

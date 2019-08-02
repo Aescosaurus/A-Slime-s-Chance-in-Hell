@@ -1,0 +1,24 @@
+#pragma once
+
+#include "Colors.h"
+#include "Graphics.h"
+#include <algorithm>
+
+namespace SpriteEffect
+{
+	class PartialFade
+	{
+	public:
+		PartialFade( float fade )
+			:
+			fade( fade )
+		{}
+		void operator()( Color cSrc,int xDest,int yDest,Graphics& gfx ) const
+		{
+			gfx.PutPixelAlpha( xDest,yDest,cSrc,
+				std::max( 0.0f,fade - ( float( cSrc.GetR() ) / 255.0f ) ) );
+		}
+	private:
+		float fade;
+	};
+}
