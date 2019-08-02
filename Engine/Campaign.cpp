@@ -15,20 +15,21 @@ void Campaign::Update()
 
 	player.Update( dt );
 
+	const auto mousePos = Vec2( mouse.GetPos() );
+	diff = ( mousePos / TileMap::tileSize ) -
+		player.GetColl().pos;
+
 	actionTimer.Update( dt );
 
-	if( mouse.LeftIsPressed() && actionTimer.IsDone() )
+	if( mouse.LeftIsPressed()/* && actionTimer.IsDone()*/ )
 	{
-		const auto mousePos = Vec2( mouse.GetPos() );
-		const auto diff = ( mousePos / TileMap::tileSize ) -
-			player.GetColl().pos;
 		bool completedAction = false;
 
 		actionTimer.Reset();
 
-		if( player.GetColl().Contains( mousePos ) && !completedAction )
+		if( player.GetColl().Contains( mousePos /
+			TileMap::tileSize ) && !completedAction )
 		{
-			// player.Update( ActionType::Light,diff,dt );
 			// torch.light()
 			completedAction = true;
 		}
@@ -37,22 +38,22 @@ void Campaign::Update()
 		// {
 		// 	// check if mouse clicked on enemy
 		// 	// if so player.shoot()
-		// 	completedAction = true;
+		// 	// if so completedAction = true;
 		// }
 
 		if( !completedAction )
 		{
-			// if( std::abs( diff.x ) > std::abs( diff.y ) )
-			// {
-			// 	player.Move( diff );
-			// }
-			// else // y diff is greater
-			// {
-			// 	player.HybridJump( diff );
-			// }
-			player.HybridJump( diff );
-			completedAction = true;
+			chargePower += chargeRate * dt;
+			if( chargePower >= 1.0f )
+			{
+				PlayerJump();
+				completedAction = true;
+			}
 		}
+	}
+	else if( chargePower > 0.0f )
+	{
+		PlayerJump();
 	}
 }
 
@@ -60,4 +61,16 @@ void Campaign::Draw()
 {
 	map.Draw( gfx );
 	player.Draw( gfx );
+
+	// gfx.DrawLine( player.GetColl().pos * TileMap::tileSize,
+	// 	( player.GetColl().pos + ( diff * chargePower ) ) *
+	// 	TileMap::tileSize,
+	// 	Colors::White );
+}
+
+void Campaign::PlayerJump()
+{
+	player.HybridJump( diff.GetNormalized() *
+		std::min( 1.0f,chargePower ) );
+	chargePower = 0.0f;
 }

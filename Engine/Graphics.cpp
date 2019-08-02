@@ -66,9 +66,9 @@ Graphics::Graphics( HWNDKey& key )
 	createFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 #endif
-	
+
 	// create device and front/back buffers
-	if( FAILED( hr = D3D11CreateDeviceAndSwapChain( 
+	if( FAILED( hr = D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
@@ -90,13 +90,13 @@ Graphics::Graphics( HWNDKey& key )
 	if( FAILED( hr = pSwapChain->GetBuffer(
 		0,
 		__uuidof( ID3D11Texture2D ),
-		(LPVOID*)&pBackBuffer ) ) )
+		( LPVOID* )&pBackBuffer ) ) )
 	{
 		throw CHILI_GFX_EXCEPTION( hr,L"Getting back buffer" );
 	}
 
 	// create a view on backbuffer that we can render to
-	if( FAILED( hr = pDevice->CreateRenderTargetView( 
+	if( FAILED( hr = pDevice->CreateRenderTargetView(
 		pBackBuffer.Get(),
 		nullptr,
 		&pRenderTargetView ) ) )
@@ -163,7 +163,7 @@ Graphics::Graphics( HWNDKey& key )
 	{
 		throw CHILI_GFX_EXCEPTION( hr,L"Creating pixel shader" );
 	}
-	
+
 
 	/////////////////////////////////////////////////
 	// create vertex shader for framebuffer
@@ -176,18 +176,18 @@ Graphics::Graphics( HWNDKey& key )
 	{
 		throw CHILI_GFX_EXCEPTION( hr,L"Creating vertex shader" );
 	}
-	
+
 
 	//////////////////////////////////////////////////////////////
 	// create and fill vertex buffer with quad for rendering frame
 	const FSQVertex vertices[] =
 	{
 		{ -1.0f,1.0f,0.5f,0.0f,0.0f },
-		{ 1.0f,1.0f,0.5f,1.0f,0.0f },
-		{ 1.0f,-1.0f,0.5f,1.0f,1.0f },
-		{ -1.0f,1.0f,0.5f,0.0f,0.0f },
-		{ 1.0f,-1.0f,0.5f,1.0f,1.0f },
-		{ -1.0f,-1.0f,0.5f,0.0f,1.0f },
+	{ 1.0f,1.0f,0.5f,1.0f,0.0f },
+	{ 1.0f,-1.0f,0.5f,1.0f,1.0f },
+	{ -1.0f,1.0f,0.5f,0.0f,0.0f },
+	{ 1.0f,-1.0f,0.5f,1.0f,1.0f },
+	{ -1.0f,-1.0f,0.5f,0.0f,1.0f },
 	};
 	D3D11_BUFFER_DESC bd = {};
 	bd.Usage = D3D11_USAGE_DEFAULT;
@@ -201,13 +201,13 @@ Graphics::Graphics( HWNDKey& key )
 		throw CHILI_GFX_EXCEPTION( hr,L"Creating vertex buffer" );
 	}
 
-	
+
 	//////////////////////////////////////////
 	// create input layout for fullscreen quad
 	const D3D11_INPUT_ELEMENT_DESC ied[] =
 	{
 		{ "POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0 },
-		{ "TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0 }
+	{ "TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0 }
 	};
 
 	// Ignore the intellisense error "namespace has no member"
@@ -236,7 +236,7 @@ Graphics::Graphics( HWNDKey& key )
 	}
 
 	// allocate memory for sysbuffer (16-byte aligned for faster access)
-	pSysBuffer = reinterpret_cast<Color*>( 
+	pSysBuffer = reinterpret_cast< Color* >(
 		_aligned_malloc( sizeof( Color ) * Graphics::ScreenWidth * Graphics::ScreenHeight,16u ) );
 }
 
@@ -263,14 +263,14 @@ void Graphics::EndFrame()
 		throw CHILI_GFX_EXCEPTION( hr,L"Mapping sysbuffer" );
 	}
 	// setup parameters for copy operation
-	Color* pDst = reinterpret_cast<Color*>(mappedSysBufferTexture.pData );
+	Color* pDst = reinterpret_cast< Color* >( mappedSysBufferTexture.pData );
 	const size_t dstPitch = mappedSysBufferTexture.RowPitch / sizeof( Color );
 	const size_t srcPitch = Graphics::ScreenWidth;
 	const size_t rowBytes = srcPitch * sizeof( Color );
 	// perform the copy line-by-line
 	for( size_t y = 0u; y < Graphics::ScreenHeight; y++ )
 	{
-		memcpy( &pDst[ y * dstPitch ],&pSysBuffer[y * srcPitch],rowBytes );
+		memcpy( &pDst[y * dstPitch],&pSysBuffer[y * srcPitch],rowBytes );
 	}
 	// release the adapter memory
 	pImmediateContext->Unmap( pSysBufferTexture.Get(),0u );
@@ -346,6 +346,47 @@ void Graphics::DrawCircle( const Vei2& pos,int radius,Color c )
 	}
 }
 
+void Graphics::DrawLine( Vec2 p0,Vec2 p1,Color c )
+{
+	float m = 0.0f;
+	if( p1.x != p0.x )
+	{
+		m = ( p1.y - p0.y ) / ( p1.x - p0.x );
+	}
+
+	if( p1.x != p0.x && std::abs( m ) <= 1.0f )
+	{
+		if( p0.x > p1.x )
+		{
+			std::swap( p0,p1 );
+		}
+
+		const float b = p0.y - m * p0.x;
+
+		for( int x = int( p0.x ); x < int( p1.x ); x++ )
+		{
+			const float y = m * float( x ) + b;
+			PutPixel( x,int( y ),c );
+		}
+	}
+	else
+	{
+		if( p0.y > p1.y )
+		{
+			std::swap( p0,p1 );
+		}
+
+		const float w = ( p1.x - p0.x ) / ( p1.y - p0.y );
+		const float p = p0.x - w * p0.y;
+
+		for( int y = int( p0.y ); y < int( p1.y ); y++ )
+		{
+			const float x = w * float( y ) + p;
+			PutPixel( int( x ),y,c );
+		}
+	}
+}
+
 
 //////////////////////////////////////////////////
 //           Graphics Exception
@@ -362,14 +403,14 @@ std::wstring Graphics::Exception::GetFullMessage() const
 	const std::wstring errorDesc = GetErrorDescription();
 	const std::wstring& note = GetNote();
 	const std::wstring location = GetLocation();
-	return    (!errorName.empty() ? std::wstring( L"Error: " ) + errorName + L"\n"
-		: empty)
-		+ (!errorDesc.empty() ? std::wstring( L"Description: " ) + errorDesc + L"\n"
-			: empty)
-		+ (!note.empty() ? std::wstring( L"Note: " ) + note + L"\n"
-			: empty)
-		+ (!location.empty() ? std::wstring( L"Location: " ) + location
-			: empty);
+	return    ( !errorName.empty() ? std::wstring( L"Error: " ) + errorName + L"\n"
+		: empty )
+		+ ( !errorDesc.empty() ? std::wstring( L"Description: " ) + errorDesc + L"\n"
+			: empty )
+		+ ( !note.empty() ? std::wstring( L"Note: " ) + note + L"\n"
+			: empty )
+		+ ( !location.empty() ? std::wstring( L"Location: " ) + location
+			: empty );
 }
 
 std::wstring Graphics::Exception::GetErrorName() const

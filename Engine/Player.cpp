@@ -47,9 +47,9 @@ void Player::HybridJump( const Vec2& diff )
 {
 	if( canJump )
 	{
-		// vel += ( diff / 5.0f ) * hybridJumpPower;
-		vel.x += ( diff.x / 7.0f ) * hybridJumpPower;
-		vel.y += ( diff.y / 5.0f ) * hybridJumpPower;
+		vel += diff * hybridJumpPower;
+		// vel.x += ( diff.x / 7.0f ) * hybridJumpPower;
+		// vel.y += ( diff.y / 5.0f ) * hybridJumpPower;
 	}
 }
 

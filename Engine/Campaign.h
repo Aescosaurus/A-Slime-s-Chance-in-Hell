@@ -17,6 +17,8 @@ public:
 	void Update();
 	void Draw();
 private:
+	void PlayerJump();
+private:
 	Keyboard& kbd;
 	Mouse& mouse;
 	Graphics& gfx;
@@ -26,4 +28,6 @@ private:
 	Player player;
 	Timer actionTimer = 1.0f;
 	float chargePower = 0.0f;
+	static constexpr float chargeRate = 1.0f;
+	Vec2 diff;
 };

@@ -31,5 +31,5 @@ private:
 	static constexpr float gravAcc = 30.0f;
 	static constexpr float velDecayRate = 0.97f;
 	bool canJump = false;
-	static constexpr float hybridJumpPower = 9.0f;
+	static constexpr float hybridJumpPower = 29.0f;
 };
