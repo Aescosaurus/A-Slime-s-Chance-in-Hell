@@ -5,6 +5,9 @@
 #include "Graphics.h"
 #include "TileMap.h"
 #include "Player.h"
+#include "FrameTimer.h"
+#include "ActionType.h"
+#include "Timer.h"
 
 class Campaign
 {
@@ -18,6 +21,9 @@ private:
 	Mouse& mouse;
 	Graphics& gfx;
 
+	FrameTimer ft;
 	TileMap map;
 	Player player;
+	Timer actionTimer = 1.0f;
+	float chargePower = 0.0f;
 };

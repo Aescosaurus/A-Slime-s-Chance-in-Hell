@@ -132,3 +132,4 @@ public:
 typedef Vec2_<float> Vec2;
 typedef Vec2_<int> Vei2;
 typedef Vec2_<double> Ved2;
+typedef Vec2_<bool> Vec2b;
