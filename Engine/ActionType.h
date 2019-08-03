@@ -2,8 +2,9 @@
 
 enum class ActionType
 {
+	None,
 	Move,
 	Jump,
-	Light,
-	Shoot
+	PlaceTorch,
+	Attack
 };

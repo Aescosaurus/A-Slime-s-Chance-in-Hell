@@ -12,8 +12,10 @@ public:
 	void Draw( const TorchHandler& torchHandler,Graphics& gfx ) const;
 
 	void AddPos( const Vei2& pos );
+
+	const std::vector<Demon>& GetEnemies() const;
 private:
 	std::vector<Vei2> spawnPosList;
 	std::vector<Demon> demons;
-	Timer demonSpawnTimer = 1.0f; // from 7
+	Timer demonSpawnTimer = 7.0f;
 };

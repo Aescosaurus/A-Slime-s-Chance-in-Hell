@@ -15,6 +15,7 @@ TorchHandler::TorchHandler()
 
 void TorchHandler::Update( float dt )
 {
+#if NDEBUG
 	overlay.DrawRect( 0,0,
 		overlay.GetWidth(),overlay.GetHeight(),
 		Colors::Black );
@@ -32,12 +33,15 @@ void TorchHandler::Update( float dt )
 	{
 		return( torch.burnoutTimer.IsDone() );
 	} );
+#endif
 }
 
 void TorchHandler::Draw( Graphics& gfx ) const
 {
+#if NDEBUG
 	gfx.DrawSprite( 0,0,overlay,
 		SpriteEffect::PartialFade{ globalOpacity } );
+#endif
 }
 
 void TorchHandler::PlaceTorch( const Vec2& pos )

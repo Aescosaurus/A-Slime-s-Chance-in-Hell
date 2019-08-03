@@ -12,6 +12,8 @@ public:
 
 	void Update( const Vec2& playerPos,float dt );
 	void Draw( const TorchHandler& torchHandler,Graphics& gfx ) const;
+
+	const Collider& GetColl() const;
 private:
 	static constexpr float radius = 0.8f;
 	Collider coll;

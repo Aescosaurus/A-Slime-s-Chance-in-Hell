@@ -30,3 +30,8 @@ void Demon::Draw( const TorchHandler& torchHandler,Graphics& gfx ) const
 		coll.Draw( Colors::Red,gfx );
 	}
 }
+
+const Collider& Demon::GetColl() const
+{
+	return( coll );
+}

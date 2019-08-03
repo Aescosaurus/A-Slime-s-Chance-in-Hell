@@ -39,7 +39,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	cam.Update();
+	cam.Update2();
 }
 
 void Game::ComposeFrame()

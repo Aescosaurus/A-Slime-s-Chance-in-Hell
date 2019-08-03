@@ -1,4 +1,5 @@
 #include "Campaign.h"
+#include <cassert>
 
 Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	:
@@ -13,66 +14,226 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	}
 }
 
-void Campaign::Update()
+// void Campaign::Update()
+// {
+// 	auto dt = ft.Mark();
+// 	if( dt > 0.5f ) dt = 0.0f; // 0.5s lag = :(
+// 
+// 	player.Update( dt );
+// 
+// 	const auto mousePos = Vec2( mouse.GetPos() );
+// 	diff = ( mousePos / TileMap::tileSize ) -
+// 		player.GetColl().pos;
+// 
+// 	actionTimer.Update( dt );
+// 
+// 	if( mouse.LeftIsPressed()/* && actionTimer.IsDone()*/ )
+// 	{
+// 		bool completedAction = false;
+// 
+// 		actionTimer.Reset();
+// 
+// 		if( player.GetColl().Contains( mousePos /
+// 			TileMap::tileSize ) && !completedAction )
+// 		{
+// 			placingTorch = true;
+// 			chargePower += chargeRate * dt;
+// 			completedAction = true;
+// 		}
+// 
+// 		if( !completedAction )
+// 		{
+// 			hoveringEnemy = false;
+// 			for( const auto& demon : enemySpawner.GetEnemies() )
+// 			{
+// 				if( demon.GetColl().Contains( mousePos / TileMap::tileSize ) )
+// 				{
+// 					hoveringEnemy = true;
+// 					chargePower += chargeRate * dt;
+// 					completedAction = true;
+// 				}
+// 			}
+// 			// check if mouse clicked on enemy
+// 			// if so player.shoot()
+// 			// if so completedAction = true;
+// 		}
+// 
+// 		if( !completedAction )
+// 		{
+// 			chargePower += chargeRate * dt;
+// 			jumping = true;
+// 			if( chargePower >= 1.0f )
+// 			{
+// 				PlayerJump();
+// 				jumping = false;
+// 				completedAction = true;
+// 			}
+// 		}
+// 	}
+// 
+// 	if( jumping )
+// 	{
+// 		PlayerJump();
+// 		jumping = false;
+// 	}
+// 
+// 	if( chargePower > 1.0f && placingTorch )
+// 	{
+// 		torchHandler.PlaceTorch( player.GetColl().pos );
+// 		chargePower = 0.0f;
+// 	}
+// 
+// 	if( chargePower > 1.0f && hoveringEnemy )
+// 	{
+// 		bullets.emplace_back( Bullet{ player.GetColl().pos,mousePos } );
+// 		chargePower = 0.0f;
+// 	}
+// 
+// 	torchHandler.Update( dt );
+// 
+// 	enemySpawner.Update( player.GetColl().pos,dt );
+// 
+// 	for( auto& bullet : bullets )
+// 	{
+// 		bullet.Update( dt );
+// 	}
+// }
+
+void Campaign::Update2()
 {
 	auto dt = ft.Mark();
 	if( dt > 0.5f ) dt = 0.0f; // 0.5s lag = :(
 
 	player.Update( dt );
 
-	const auto mousePos = Vec2( mouse.GetPos() );
-	diff = ( mousePos / TileMap::tileSize ) -
-		player.GetColl().pos;
-
-	actionTimer.Update( dt );
-
-	if( mouse.LeftIsPressed()/* && actionTimer.IsDone()*/ )
-	{
-		bool completedAction = false;
-
-		actionTimer.Reset();
-
-		if( player.GetColl().Contains( mousePos /
-			TileMap::tileSize ) && !completedAction )
-		{
-			placingTorch = true;
-			chargePower += chargeRate * dt;
-			completedAction = true;
-		}
-
-		// if( !completedAction )
-		// {
-		// 	// check if mouse clicked on enemy
-		// 	// if so player.shoot()
-		// 	// if so completedAction = true;
-		// }
-
-		if( !completedAction )
-		{
-			chargePower += chargeRate * dt;
-			jumping = true;
-			if( chargePower >= 1.0f )
-			{
-				PlayerJump();
-				jumping = false;
-				completedAction = true;
-			}
-		}
-	}
-	else if( jumping )
-	{
-		PlayerJump();
-		jumping = false;
-	}
-	if( chargePower > 1.0f && placingTorch )
-	{
-		torchHandler.PlaceTorch( player.GetColl().pos );
-		chargePower = 0.0f;
-	}
-
 	torchHandler.Update( dt );
 
 	enemySpawner.Update( player.GetColl().pos,dt );
+
+	for( auto& bullet : bullets )
+	{
+		bullet.Update( dt );
+	}
+
+	const auto mousePos = Vec2( mouse.GetPos() ) / TileMap::tileSize;
+
+	if( mouse.LeftIsPressed() )
+	{
+		if( curAction == ActionType::None )
+		{
+			for( const auto& demon : enemySpawner.GetEnemies() )
+			{
+				if( demon.GetColl().Contains( mousePos ) )
+				{
+					startAction.Update( dt );
+					if( testAction != ActionType::Attack )
+					{
+						startAction.Reset();
+					}
+					if( startAction.IsDone() )
+					{
+						startAction.Reset();
+						curAction = ActionType::Attack;
+					}
+					testAction = ActionType::Attack;
+					return;
+				}
+			}
+
+			// check objectives for mouse click and distance, etc.
+
+			if( player.GetColl().Contains( mousePos ) )
+			{
+				startAction.Update( dt );
+				if( testAction != ActionType::PlaceTorch )
+				{
+					startAction.Reset();
+				}
+				if( startAction.IsDone() )
+				{
+					startAction.Reset();
+					curAction = ActionType::PlaceTorch;
+				}
+				testAction = ActionType::PlaceTorch;
+				return;
+			}
+
+			const auto diff = mousePos - player.GetColl().pos;
+			if( std::abs( diff.x ) > std::abs( diff.y ) )
+			{
+				startAction.Update( dt );
+				if( testAction != ActionType::Move )
+				{
+					startAction.Reset();
+				}
+				if( startAction.IsDone() )
+				{
+					startAction.Reset();
+					curAction = ActionType::Move;
+				}
+				testAction = ActionType::Move;
+				return;
+			}
+			else
+			{
+				startAction.Update( dt );
+				if( testAction != ActionType::Jump )
+				{
+					startAction.Reset();
+				}
+				if( startAction.IsDone() )
+				{
+					startAction.Reset();
+					curAction = ActionType::Jump;
+				}
+				testAction = ActionType::Jump;
+				return;
+			}
+		}
+
+		if( curAction != ActionType::None &&
+			testAction != ActionType::None )
+		{
+			chargeTimer.Update( dt );
+		}
+	}
+	else
+	{
+		chargeTimer.Reset();
+		curAction = ActionType::None;
+		testAction = ActionType::None;
+	}
+
+	if( chargeTimer.IsDone() )
+	{
+		const auto diff = mousePos - player.GetColl().pos;
+
+		switch( curAction )
+		{
+		case ActionType::Move:
+			player.Move( diff.GetNormalized() *
+				chargeTimer.GetPercent() );
+			break;
+		case ActionType::Jump:
+			player.HybridJump( diff.GetNormalized() *
+				chargeTimer.GetPercent() );
+			break;
+		case ActionType::PlaceTorch:
+			torchHandler.PlaceTorch( player.GetColl().pos );
+			break;
+		case ActionType::Attack:
+			bullets.emplace_back( Bullet{
+				player.GetColl().pos,mousePos } );
+			break;
+		default:
+			assert( false );
+			break;
+		}
+
+		curAction = ActionType::None;
+		testAction = ActionType::None;
+		chargeTimer.Reset();
+	}
 }
 
 void Campaign::Draw()
@@ -80,7 +241,10 @@ void Campaign::Draw()
 	map.Draw( gfx );
 	player.Draw( gfx );
 	enemySpawner.Draw( torchHandler,gfx );
-
+	for( const auto& bullet : bullets )
+	{
+		bullet.Draw( gfx );
+	}
 
 	torchHandler.Draw( gfx );
 
@@ -90,9 +254,9 @@ void Campaign::Draw()
 	// 	Colors::White );
 }
 
-void Campaign::PlayerJump()
-{
-	player.HybridJump( diff.GetNormalized() *
-		std::min( 1.0f,chargePower ) );
-	chargePower = 0.0f;
-}
+// void Campaign::PlayerJump()
+// {
+// 	player.HybridJump( diff.GetNormalized() *
+// 		std::min( 1.0f,chargePower ) );
+// 	chargePower = 0.0f;
+// }

@@ -41,7 +41,7 @@ void Player::Draw( Graphics& gfx ) const
 
 void Player::Move( const Vec2& diff )
 {
-	vel.x += ( diff.x / 10.0f ) * speed;
+	vel.x += diff.x * speed;
 }
 
 void Player::HybridJump( const Vec2& diff )
