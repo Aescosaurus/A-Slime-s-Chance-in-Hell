@@ -31,7 +31,17 @@ void Demon::Draw( const TorchHandler& torchHandler,Graphics& gfx ) const
 	}
 }
 
+void Demon::Cull()
+{
+	cull = true;
+}
+
 const Collider& Demon::GetColl() const
 {
 	return( coll );
+}
+
+bool Demon::WillCull() const
+{
+	return( cull );
 }

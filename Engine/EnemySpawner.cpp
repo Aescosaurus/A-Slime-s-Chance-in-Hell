@@ -31,7 +31,7 @@ void EnemySpawner::AddPos( const Vei2& pos )
 	spawnPosList.emplace_back( pos );
 }
 
-const std::vector<Demon>& EnemySpawner::GetEnemies() const
+std::vector<Demon>& EnemySpawner::GetEnemies()
 {
 	return( demons );
 }

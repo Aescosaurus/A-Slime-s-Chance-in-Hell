@@ -1,5 +1,7 @@
 #include "Campaign.h"
 #include <cassert>
+#include "ChiliUtils.h"
+#include <functional>
 
 Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	:
@@ -112,8 +114,20 @@ void Campaign::Update2()
 
 	for( auto& bullet : bullets )
 	{
-		bullet.Update( dt );
+		bullet.Update( map,dt );
+
+		for( auto& enemy : enemySpawner.GetEnemies() )
+		{
+			if( enemy.GetColl().IsCollidingWith( bullet.GetColl() ) )
+			{
+				enemy.Cull();
+				bullet.Cull();
+			}
+		}
 	}
+
+	chili::remove_erase_if( bullets,std::mem_fn( &Bullet::WillCull ) );
+	chili::remove_erase_if( enemySpawner.GetEnemies(),std::mem_fn( &Demon::WillCull ) );
 
 	const auto mousePos = Vec2( mouse.GetPos() ) / TileMap::tileSize;
 

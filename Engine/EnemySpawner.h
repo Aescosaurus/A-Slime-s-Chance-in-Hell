@@ -13,7 +13,7 @@ public:
 
 	void AddPos( const Vei2& pos );
 
-	const std::vector<Demon>& GetEnemies() const;
+	std::vector<Demon>& GetEnemies();
 private:
 	std::vector<Vei2> spawnPosList;
 	std::vector<Demon> demons;
