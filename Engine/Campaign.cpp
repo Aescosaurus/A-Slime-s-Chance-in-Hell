@@ -9,7 +9,7 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 {
 	for( const auto& pos : map.GetEnemySpawns() )
 	{
-		enemySpawners.emplace_back( EnemySpawner{ pos } );
+		enemySpawner.AddPos( pos );
 	}
 }
 
@@ -66,29 +66,23 @@ void Campaign::Update()
 	}
 	if( chargePower > 1.0f && placingTorch )
 	{
-		torch.PlaceTorch( player.GetColl().pos );
+		torchHandler.PlaceTorch( player.GetColl().pos );
 		chargePower = 0.0f;
 	}
 
-	torch.Update( dt );
+	torchHandler.Update( dt );
 
-	for( auto& spawner : enemySpawners )
-	{
-		spawner.Update( player.GetColl().pos,dt );
-	}
+	enemySpawner.Update( player.GetColl().pos,dt );
 }
 
 void Campaign::Draw()
 {
 	map.Draw( gfx );
 	player.Draw( gfx );
-	for( const auto& spawner : enemySpawners )
-	{
-		spawner.Draw( gfx );
-	}
+	enemySpawner.Draw( torchHandler,gfx );
 
 
-	torch.Draw( gfx );
+	torchHandler.Draw( gfx );
 
 	// gfx.DrawLine( player.GetColl().pos * TileMap::tileSize,
 	// 	( player.GetColl().pos + ( diff * chargePower ) ) *

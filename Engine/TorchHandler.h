@@ -4,9 +4,9 @@
 #include "Graphics.h"
 #include "Timer.h"
 
-class Torch
+class TorchHandler
 {
-private:
+public:
 	class TorchItem
 	{
 	public:
@@ -15,12 +15,14 @@ private:
 		Timer burnoutTimer = 10.0f;
 	};
 public:
-	Torch();
+	TorchHandler();
 
 	void Update( float dt );
 	void Draw( Graphics& gfx ) const;
 
 	void PlaceTorch( const Vec2& pos );
+
+	const std::vector<TorchItem>& GetTorches() const;
 private:
 	Surface overlay;
 	static constexpr float globalOpacity = 0.8f;

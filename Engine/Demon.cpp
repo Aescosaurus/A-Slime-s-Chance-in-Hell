@@ -12,7 +12,21 @@ void Demon::Update( const Vec2& playerPos,float dt )
 	coll.pos += diff * moveSpeed * dt;
 }
 
-void Demon::Draw( Graphics& gfx ) const
+void Demon::Draw( const TorchHandler& torchHandler,Graphics& gfx ) const
 {
-	coll.Draw( Colors::Red,gfx );
+	bool canDraw = false;
+	for( const auto& torch : torchHandler.GetTorches() )
+	{
+		if( coll.IsCollidingWith( Collider{ Vec2( torch.pos ) /
+			TileMap::tileSize,float( torch.radius ) /
+			TileMap::tileSize } ) )
+		{
+			canDraw = true;
+		}
+	}
+
+	if( canDraw )
+	{
+		coll.Draw( Colors::Red,gfx );
+	}
 }

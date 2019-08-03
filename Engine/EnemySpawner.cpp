@@ -1,9 +1,5 @@
 #include "EnemySpawner.h"
-
-EnemySpawner::EnemySpawner( const Vei2& pos )
-	:
-	pos( pos )
-{}
+#include "Random.h"
 
 void EnemySpawner::Update( const Vec2& playerPos,float dt )
 {
@@ -12,7 +8,8 @@ void EnemySpawner::Update( const Vec2& playerPos,float dt )
 	{
 		demonSpawnTimer.Reset();
 
-		demons.emplace_back( Demon{ Vec2( pos ) } );
+		demons.emplace_back( Demon{ Vec2( spawnPosList[
+			int( Random{ 0,int( spawnPosList.size() ) } )] ) } );
 	}
 
 	for( auto& demon : demons )
@@ -21,10 +18,15 @@ void EnemySpawner::Update( const Vec2& playerPos,float dt )
 	}
 }
 
-void EnemySpawner::Draw( Graphics& gfx ) const
+void EnemySpawner::Draw( const TorchHandler& torchHandler,Graphics& gfx ) const
 {
 	for( const auto& demon : demons )
 	{
-		demon.Draw( gfx );
+		demon.Draw( torchHandler,gfx );
 	}
+}
+
+void EnemySpawner::AddPos( const Vei2& pos )
+{
+	spawnPosList.emplace_back( pos );
 }

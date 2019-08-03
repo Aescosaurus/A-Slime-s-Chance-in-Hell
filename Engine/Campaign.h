@@ -8,7 +8,7 @@
 #include "FrameTimer.h"
 #include "ActionType.h"
 #include "Timer.h"
-#include "Torch.h"
+#include "TorchHandler.h"
 #include "EnemySpawner.h"
 
 class Campaign
@@ -34,6 +34,6 @@ private:
 	bool placingTorch = false;
 	static constexpr float chargeRate = 1.0f;
 	Vec2 diff;
-	Torch torch;
-	std::vector<EnemySpawner> enemySpawners;
+	TorchHandler torchHandler;
+	EnemySpawner enemySpawner;
 };

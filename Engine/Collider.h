@@ -24,6 +24,11 @@ public:
 	{
 		return( ( point - pos ).GetLengthSq() < radiusSq );
 	}
+	bool IsCollidingWith( const Collider& other ) const
+	{
+		return( ( pos - other.pos ).GetLengthSq() <
+			radiusSq + other.radiusSq );
+	}
 	Vec2b CanMove( const TileMap& map,
 		const Vec2& testMove ) const
 	{

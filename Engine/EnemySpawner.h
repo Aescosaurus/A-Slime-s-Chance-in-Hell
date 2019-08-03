@@ -3,16 +3,17 @@
 #include "Demon.h"
 #include <vector>
 #include "Timer.h"
+#include "TorchHandler.h"
 
 class EnemySpawner
 {
 public:
-	EnemySpawner( const Vei2& pos );
-
 	void Update( const Vec2& playerPos,float dt );
-	void Draw( Graphics& gfx ) const;
+	void Draw( const TorchHandler& torchHandler,Graphics& gfx ) const;
+
+	void AddPos( const Vei2& pos );
 private:
-	Vei2 pos;
+	std::vector<Vei2> spawnPosList;
 	std::vector<Demon> demons;
-	Timer demonSpawnTimer = 10.0f;
+	Timer demonSpawnTimer = 1.0f; // from 7
 };
