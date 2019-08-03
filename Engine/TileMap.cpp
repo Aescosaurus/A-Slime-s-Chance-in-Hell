@@ -35,6 +35,8 @@ void TileMap::LoadMap( const std::string& src )
 	std::ifstream in{ src };
 	assert( in.good() );
 
+	enemySpawns.clear();
+
 	int i = 0;
 	int x = 0;
 	int y = 0;
@@ -43,10 +45,15 @@ void TileMap::LoadMap( const std::string& src )
 		if( c != '\n' )
 		{
 			++x;
-			if( c == 'p' )
+			if( c == 'p' ) // player
 			{
 				playerSpawnPos = Vei2{ x,y };
 				c = '0';
+			}
+			if( c == 'e' ) // enemy spawner
+			{
+				enemySpawns.emplace_back( Vei2{ x,y } );
+				c = '1';
 			}
 
 			tiles[i] = TileType( c - '0' );
@@ -68,5 +75,10 @@ TileMap::TileType TileMap::GetTile( int x,int y ) const
 const Vei2& TileMap::GetPlayerSpawn() const
 {
 	return( playerSpawnPos );
+}
+
+const std::vector<Vei2>& TileMap::GetEnemySpawns() const
+{
+	return( enemySpawns );
 }
 

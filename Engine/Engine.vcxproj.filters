@@ -96,6 +96,12 @@
     <ClInclude Include="ChiliUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Demon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -138,6 +144,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Torch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Demon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

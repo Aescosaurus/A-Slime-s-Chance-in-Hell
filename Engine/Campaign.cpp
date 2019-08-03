@@ -6,7 +6,12 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	mouse( mouse ),
 	gfx( gfx ),
 	player( map )
-{}
+{
+	for( const auto& pos : map.GetEnemySpawns() )
+	{
+		enemySpawners.emplace_back( EnemySpawner{ pos } );
+	}
+}
 
 void Campaign::Update()
 {
@@ -66,12 +71,21 @@ void Campaign::Update()
 	}
 
 	torch.Update( dt );
+
+	for( auto& spawner : enemySpawners )
+	{
+		spawner.Update( player.GetColl().pos,dt );
+	}
 }
 
 void Campaign::Draw()
 {
 	map.Draw( gfx );
 	player.Draw( gfx );
+	for( const auto& spawner : enemySpawners )
+	{
+		spawner.Draw( gfx );
+	}
 
 
 	torch.Draw( gfx );

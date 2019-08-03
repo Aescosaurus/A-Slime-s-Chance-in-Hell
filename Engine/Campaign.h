@@ -9,6 +9,7 @@
 #include "ActionType.h"
 #include "Timer.h"
 #include "Torch.h"
+#include "EnemySpawner.h"
 
 class Campaign
 {
@@ -34,4 +35,5 @@ private:
 	static constexpr float chargeRate = 1.0f;
 	Vec2 diff;
 	Torch torch;
+	std::vector<EnemySpawner> enemySpawners;
 };
