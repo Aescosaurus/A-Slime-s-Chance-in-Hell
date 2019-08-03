@@ -6,7 +6,7 @@ TileMap::TileMap()
 {
 	tiles.resize( width * height ); // resize to create empty elements
 
-	LoadMap( "Levels/TestLevel.lvl" );
+	// LoadMap( "Levels/TestLevel.lvl" );
 }
 
 void TileMap::Draw( Graphics& gfx ) const
@@ -74,6 +74,10 @@ void TileMap::LoadMap( const std::string& src )
 
 TileMap::TileType TileMap::GetTile( int x,int y ) const
 {
+	if( x < 0 ) x = 0;
+	if( x >= width ) x = width - 1;
+	if( y < 0 ) y = 0;
+	if( y >= height ) y = height - 1;
 	return( tiles[y * width + x] );
 }
 

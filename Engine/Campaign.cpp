@@ -107,7 +107,7 @@ void Campaign::Update2()
 
 	torchHandler.Update( dt );
 
-	enemySpawner.Update( player.GetColl().pos,dt );
+	enemySpawner.Update( player.GetColl().pos,torchHandler,dt );
 
 	for( auto& bullet : bullets )
 	{
@@ -123,6 +123,11 @@ void Campaign::Update2()
 		}
 	}
 
+	for( auto& key : keys )
+	{
+		key.Update( torchHandler,dt );
+	}
+
 	chili::remove_erase_if( bullets,std::mem_fn( &Bullet::WillCull ) );
 	chili::remove_erase_if( enemySpawner.GetEnemies(),std::mem_fn( &Demon::WillCull ) );
 
@@ -134,7 +139,8 @@ void Campaign::Update2()
 		{
 			for( const auto& demon : enemySpawner.GetEnemies() )
 			{
-				if( demon.GetColl().Contains( mousePos ) )
+				if( demon.GetColl().Contains( mousePos ) &&
+					demon.IsVisible() )
 				{
 					startAction.Update( dt );
 					if( testAction != ActionType::Attack )
@@ -159,7 +165,8 @@ void Campaign::Update2()
 					player.GetColl().pos ).GetLengthSq();
 
 				if( dist < keyCollectDist * keyCollectDist &&
-					key.GetColl().Contains( mousePos ) )
+					key.GetColl().Contains( mousePos ) &&
+					key.IsVisible() )
 				{
 					startAction.Update( dt );
 					if( testAction != ActionType::CollectKey )
@@ -260,7 +267,7 @@ void Campaign::Update2()
 			// Play animation for collecting key.
 			if( keys.size() == 0 )
 			{
-				// load next level.
+				LoadNextLevel();
 			}
 			break;
 		case ActionType::PlaceTorch:
@@ -286,7 +293,7 @@ void Campaign::Draw()
 	map.Draw( gfx );
 	player.Draw( gfx );
 	for( const auto& key : keys ) key.Draw( gfx );
-	enemySpawner.Draw( torchHandler,gfx );
+	enemySpawner.Draw( gfx );
 	for( const auto& bullet : bullets ) bullet.Draw( gfx );
 
 	torchHandler.Draw( gfx );

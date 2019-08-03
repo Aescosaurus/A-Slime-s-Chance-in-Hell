@@ -5,16 +5,13 @@ Demon::Demon( const Vec2& pos )
 	coll( pos,radius )
 {}
 
-void Demon::Update( const Vec2& playerPos,float dt )
+void Demon::Update( const Vec2& playerPos,const TorchHandler& torchHandler,float dt )
 {
 	const auto diff = ( playerPos - coll.pos ).GetNormalized();
 
 	coll.pos += diff * moveSpeed * dt;
-}
 
-void Demon::Draw( const TorchHandler& torchHandler,Graphics& gfx ) const
-{
-	bool canDraw = false;
+	canDraw = false;
 	for( const auto& torch : torchHandler.GetTorches() )
 	{
 		if( coll.IsCollidingWith( Collider{ Vec2( torch.pos ) /
@@ -24,7 +21,10 @@ void Demon::Draw( const TorchHandler& torchHandler,Graphics& gfx ) const
 			canDraw = true;
 		}
 	}
+}
 
+void Demon::Draw( Graphics& gfx ) const
+{
 	if( canDraw )
 	{
 		coll.Draw( Colors::Red,gfx );
@@ -44,4 +44,9 @@ const Collider& Demon::GetColl() const
 bool Demon::WillCull() const
 {
 	return( cull );
+}
+
+bool Demon::IsVisible() const
+{
+	return( canDraw );
 }

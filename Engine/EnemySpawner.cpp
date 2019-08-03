@@ -1,7 +1,7 @@
 #include "EnemySpawner.h"
 #include "Random.h"
 
-void EnemySpawner::Update( const Vec2& playerPos,float dt )
+void EnemySpawner::Update( const Vec2& playerPos,const TorchHandler& torchHandler,float dt )
 {
 	demonSpawnTimer.Update( dt );
 	if( demonSpawnTimer.IsDone() )
@@ -14,15 +14,15 @@ void EnemySpawner::Update( const Vec2& playerPos,float dt )
 
 	for( auto& demon : demons )
 	{
-		demon.Update( playerPos,dt );
+		demon.Update( playerPos,torchHandler,dt );
 	}
 }
 
-void EnemySpawner::Draw( const TorchHandler& torchHandler,Graphics& gfx ) const
+void EnemySpawner::Draw( Graphics& gfx ) const
 {
 	for( const auto& demon : demons )
 	{
-		demon.Draw( torchHandler,gfx );
+		demon.Draw( gfx );
 	}
 }
 
