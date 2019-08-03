@@ -47,6 +47,7 @@ void Player::Move( const Vec2& diff )
 
 void Player::HybridJump( const Vec2& diff )
 {
+	coll.pos.y -= 0.2f;
 	if( canJump )
 	{
 		vel += diff * hybridJumpPower;
