@@ -53,4 +53,5 @@ private:
 	std::vector<Key> keys;
 	int selectedKey = -1;
 	static constexpr float keyCollectDist = 1.5f;
+	Timer deathTimer = 1.0f;
 };

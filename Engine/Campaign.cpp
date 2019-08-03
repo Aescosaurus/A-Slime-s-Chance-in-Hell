@@ -11,7 +11,6 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	player( map )
 {
 	LoadNextLevel();
-	LoadNextLevel();
 }
 
 // void Campaign::Update()
@@ -131,6 +130,26 @@ void Campaign::Update2()
 
 	chili::remove_erase_if( bullets,std::mem_fn( &Bullet::WillCull ) );
 	chili::remove_erase_if( enemySpawner.GetEnemies(),std::mem_fn( &Demon::WillCull ) );
+
+	{
+		const auto& enemies = enemySpawner.GetEnemies();
+		bool collidedEnemy = false;
+		for( int i = 0; i < int( enemies.size() ); ++i )
+		{
+			if( player.GetColl().IsCollidingWith(
+				enemies[i].GetColl() ) )
+			{
+				deathTimer.Update( dt );
+				collidedEnemy = true;
+			}
+		}
+		if( !collidedEnemy ) deathTimer.Reset();
+		if( deathTimer.IsDone() )
+		{
+			--curLevel;
+			LoadNextLevel();
+		}
+	}
 
 	const auto mousePos = Vec2( mouse.GetPos() ) / TileMap::tileSize;
 

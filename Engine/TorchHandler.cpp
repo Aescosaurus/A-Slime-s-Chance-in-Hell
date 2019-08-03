@@ -39,7 +39,7 @@ void TorchHandler::Update( float dt )
 void TorchHandler::Draw( Graphics& gfx ) const
 {
 #if NDEBUG
-	gfx.DrawSprite( 0,0,overlay,
+	gfx.DrawSprite( 0,0,overlay,false,
 		SpriteEffect::PartialFade{ globalOpacity } );
 #endif
 }

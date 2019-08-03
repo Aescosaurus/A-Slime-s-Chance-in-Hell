@@ -3,6 +3,8 @@
 #include "Graphics.h"
 #include "Collider.h"
 #include "TorchHandler.h"
+#include "Animation.h"
+#include "Codex.h"
 
 class Key
 {
@@ -18,4 +20,6 @@ private:
 	static constexpr float radius = 0.5f;
 	Collider coll;
 	bool canDraw = false;
+	CSurfPtr sprSheet = SurfCodex::Fetch( "Images/Key.bmp" );
+	Animation anim;
 };

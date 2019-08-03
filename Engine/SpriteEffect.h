@@ -21,4 +21,22 @@ namespace SpriteEffect
 	private:
 		float fade;
 	};
+
+	class Chroma
+	{
+	public:
+		Chroma( Color chroma = Colors::Magenta )
+			:
+			chroma( chroma )
+		{}
+		void operator()( Color cSrc,int xDest,int yDest,Graphics& gfx ) const
+		{
+			if( cSrc != chroma )
+			{
+				gfx.PutPixel( xDest,yDest,cSrc );
+			}
+		}
+	private:
+		Color chroma;
+	};
 }

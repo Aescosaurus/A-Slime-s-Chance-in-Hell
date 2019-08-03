@@ -94,7 +94,7 @@ public:
 
 	constexpr bool operator!=( const Color& rhs ) const
 	{
-		return( dword == rhs.dword );
+		return( dword != rhs.dword );
 	}
 };
 

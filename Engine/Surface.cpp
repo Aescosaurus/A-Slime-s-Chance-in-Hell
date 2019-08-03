@@ -73,7 +73,7 @@ Surface::Surface( const std::string& filename )
 		}
 	}
 
-	*this = GetExpandedBy( Vei2{ 4,4 } );
+	*this = GetExpandedBy( Vei2{ 3,3 } );
 }
 
 Surface::Surface( const Surface& other,const RectI& clip )

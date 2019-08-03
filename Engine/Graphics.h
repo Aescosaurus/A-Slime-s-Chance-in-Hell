@@ -26,6 +26,7 @@
 #include "Colors.h"
 #include "Vec2.h"
 #include "Surface.h"
+#include <cassert>
 
 class Graphics
 {
@@ -65,14 +66,33 @@ public:
 	void DrawLine( Vec2 p0,Vec2 p1,Color c );
 
 	template<typename Effect>
-	void DrawSprite( int x,int y,const Surface& s,
-		Effect eff )
+	void DrawSprite( int x,int y,const Surface& spr,
+		bool centered,Effect eff )
 	{
-		for( int sy = 0; sy < s.GetHeight(); ++sy )
+		DrawSprite( x,y,spr.GetRect(),spr,centered,eff );
+	}
+	template<typename Effect>
+	void DrawSprite( int x,int y,const RectI& clip,
+		const Surface& spr,bool centered,Effect eff )
+	{
+		assert( clip.left >= 0 );
+		assert( clip.top >= 0 );
+		assert( clip.right <= spr.GetWidth() );
+		assert( clip.bottom <= spr.GetHeight() );
+
+		if( centered )
 		{
-			for( int sx = 0; sx < s.GetWidth(); ++sx )
+			x -= clip.GetWidth() / 2;
+			y -= clip.GetHeight() / 2;
+		}
+
+		for( int sy = 0; sy < clip.GetHeight(); ++sy )
+		{
+			for( int sx = 0; sx < clip.GetWidth(); ++sx )
 			{
-				eff( s.GetPixel( sx,sy ),x + sx,y + sy,*this );
+				const auto pix = spr.GetPixel( sx + clip.left,
+					sy + clip.top );
+				eff( pix,x + sx,y + sy,*this );
 			}
 		}
 	}

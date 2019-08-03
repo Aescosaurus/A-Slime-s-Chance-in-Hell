@@ -137,11 +137,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ActionType.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Campaign.h" />
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliUtils.h" />
     <ClInclude Include="ChiliWin.h" />
+    <ClInclude Include="Codex.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="COMInitializer.h" />
@@ -169,6 +171,7 @@
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Campaign.cpp" />
     <ClCompile Include="COMInitializer.cpp" />
