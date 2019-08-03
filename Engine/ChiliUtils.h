@@ -2,6 +2,18 @@
 
 namespace chili
 {
+	// remove an element from a vector
+	// messes up the order of elements
+	// (faster than erase and doesn't need iter)
+	template<typename T>
+	inline void remove_element( std::vector<T>& vec,size_t index )
+	{
+		// swap element to be removed with element at back
+		std::swap( vec[index],vec.back() );
+		// back is now what we want dead, so pop back!
+		vec.pop_back();
+	}
+
 	// uses remove_if to remove elements matching predicate over entire container
 	// and then calls erase to remove the 'empty' husks at the end
 	template<class Container,class Pred>

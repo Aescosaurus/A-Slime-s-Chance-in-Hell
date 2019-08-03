@@ -14,6 +14,11 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	{
 		enemySpawner.AddPos( pos );
 	}
+
+	for( const auto& pos : map.GetKeySpawns() )
+	{
+		keys.emplace_back( Key{ pos } );
+	}
 }
 
 // void Campaign::Update()
@@ -154,7 +159,31 @@ void Campaign::Update2()
 				}
 			}
 
-			// check objectives for mouse click and distance, etc.
+			for( int i = 0; i < int( keys.size() ); ++i )
+			{
+				const auto& key = keys[i];
+
+				const auto dist = ( key.GetColl().pos -
+					player.GetColl().pos ).GetLengthSq();
+
+				if( dist < keyCollectDist * keyCollectDist &&
+					key.GetColl().Contains( mousePos ) )
+				{
+					startAction.Update( dt );
+					if( testAction != ActionType::CollectKey )
+					{
+						startAction.Reset();
+					}
+					if( startAction.IsDone() )
+					{
+						startAction.Reset();
+						selectedKey = i;
+						curAction = ActionType::CollectKey;
+					}
+					testAction = ActionType::CollectKey;
+					return;
+				}
+			}
 
 			if( player.GetColl().Contains( mousePos ) )
 			{
@@ -225,12 +254,18 @@ void Campaign::Update2()
 		switch( curAction )
 		{
 		case ActionType::Move:
-			player.Move( diff.GetNormalized() *
+			player.HybridJump( diff.GetNormalized() *
 				chargeTimer.GetPercent() );
 			break;
 		case ActionType::Jump:
 			player.HybridJump( diff.GetNormalized() *
 				chargeTimer.GetPercent() );
+			break;
+		case ActionType::CollectKey:
+			assert( selectedKey != -1 );
+			chili::remove_element( keys,selectedKey );
+			selectedKey = -1;
+			// Play animation for collecting key.
 			break;
 		case ActionType::PlaceTorch:
 			torchHandler.PlaceTorch( player.GetColl().pos );
@@ -254,11 +289,9 @@ void Campaign::Draw()
 {
 	map.Draw( gfx );
 	player.Draw( gfx );
+	for( const auto& key : keys ) key.Draw( gfx );
 	enemySpawner.Draw( torchHandler,gfx );
-	for( const auto& bullet : bullets )
-	{
-		bullet.Draw( gfx );
-	}
+	for( const auto& bullet : bullets ) bullet.Draw( gfx );
 
 	torchHandler.Draw( gfx );
 

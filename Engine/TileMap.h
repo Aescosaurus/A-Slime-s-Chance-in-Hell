@@ -23,6 +23,7 @@ public:
 	TileType GetTile( int x,int y ) const;
 	const Vei2& GetPlayerSpawn() const;
 	const std::vector<Vei2>& GetEnemySpawns() const;
+	const std::vector<Vei2>& GetKeySpawns() const;
 public:
 	static constexpr int tileSize = 30;
 	static constexpr int width = Graphics::ScreenWidth / tileSize; // 32
@@ -31,4 +32,5 @@ private:
 	std::vector<TileType> tiles;
 	Vei2 playerSpawnPos;
 	std::vector<Vei2> enemySpawns;
+	std::vector<Vei2> keySpawns;
 };

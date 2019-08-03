@@ -24,7 +24,7 @@ void TileMap::Draw( Graphics& gfx ) const
 			else if( tile == TileType::Wall )
 			{
 				gfx.DrawRect( x * tileSize,y * tileSize,
-					tileSize,tileSize,Colors::Green );
+					tileSize,tileSize,Colors::Gray );
 			}
 		}
 	}
@@ -50,10 +50,15 @@ void TileMap::LoadMap( const std::string& src )
 				playerSpawnPos = Vei2{ x,y };
 				c = '0';
 			}
-			if( c == 'e' ) // enemy spawner
+			else if( c == 'e' ) // enemy spawner
 			{
 				enemySpawns.emplace_back( Vei2{ x,y } );
 				c = '1';
+			}
+			else if( c == 'k' ) // key
+			{
+				keySpawns.emplace_back( Vei2{ x,y } );
+				c = '0';
 			}
 
 			tiles[i] = TileType( c - '0' );
@@ -80,5 +85,10 @@ const Vei2& TileMap::GetPlayerSpawn() const
 const std::vector<Vei2>& TileMap::GetEnemySpawns() const
 {
 	return( enemySpawns );
+}
+
+const std::vector<Vei2>& TileMap::GetKeySpawns() const
+{
+	return( keySpawns );
 }
 

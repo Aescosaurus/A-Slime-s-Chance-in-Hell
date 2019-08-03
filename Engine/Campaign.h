@@ -11,6 +11,7 @@
 #include "TorchHandler.h"
 #include "EnemySpawner.h"
 #include "Bullet.h"
+#include "Key.h"
 
 class Campaign
 {
@@ -47,4 +48,7 @@ private:
 	TorchHandler torchHandler;
 	EnemySpawner enemySpawner;
 	std::vector<Bullet> bullets;
+	std::vector<Key> keys;
+	int selectedKey = -1;
+	static constexpr float keyCollectDist = 1.5f;
 };
