@@ -2,6 +2,7 @@
 #include <cassert>
 #include "ChiliUtils.h"
 #include <functional>
+#include "SpriteEffect.h"
 
 Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	:
@@ -310,6 +311,7 @@ void Campaign::Update2()
 
 void Campaign::Draw()
 {
+	gfx.DrawSprite( 0,0,background,false,SpriteEffect::Copy{} );
 	map.Draw( gfx );
 	player.Draw( gfx );
 	for( const auto& key : keys ) key.Draw( gfx );

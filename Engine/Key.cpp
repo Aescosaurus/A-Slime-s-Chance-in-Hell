@@ -31,8 +31,8 @@ void Key::Draw( Graphics& gfx ) const
 	{
 		// coll.Draw( Colors::Yellow,gfx );
 
-		anim.Draw( coll.pos * TileMap::tileSize,gfx,true,
-			SpriteEffect::Chroma{ Colors::Magenta} );
+		anim.Draw( Vei2( coll.pos * float( TileMap::tileSize ) ),
+			gfx,true,SpriteEffect::Chroma{} );
 	}
 }
 

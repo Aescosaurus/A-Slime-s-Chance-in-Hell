@@ -4,6 +4,7 @@
 #include <string>
 #include "Graphics.h"
 #include "Vec2.h"
+#include "Surface.h"
 
 class TileMap
 {
@@ -11,7 +12,10 @@ public:
 	enum class TileType
 	{
 		Air = 0,
-		Wall
+		Wall1,
+		Wall2,
+		Wall3,
+		Wall4
 	};
 public:
 	TileMap();
@@ -34,4 +38,5 @@ private:
 	Vei2 playerSpawnPos;
 	std::vector<Vei2> enemySpawns;
 	std::vector<Vei2> keySpawns;
+	std::vector<Surface> wallSprs;
 };

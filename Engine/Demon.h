@@ -5,6 +5,8 @@
 #include "Collider.h"
 #include "TorchHandler.h"
 #include "Timer.h"
+#include "Codex.h"
+#include "Animation.h"
 
 class Demon
 {
@@ -27,4 +29,6 @@ private:
 	bool canDraw = false;
 	Vec2 vel = { 0.0f,0.0f };
 	Timer retargetTimer = 1.0f;
+	CSurfPtr sprSheet = SurfCodex::Fetch( "Images/Demon.bmp" );
+	Animation anim;
 };

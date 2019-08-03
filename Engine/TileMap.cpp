@@ -1,12 +1,25 @@
 #include "TileMap.h"
 #include <fstream>
 #include <cassert>
+#include "SpriteEffect.h"
+#include "Random.h"
 
 TileMap::TileMap()
 {
 	tiles.resize( width * height ); // resize to create empty elements
 
 	// LoadMap( "Levels/TestLevel.lvl" );
+
+	const Surface temp{ "Images/Walls.bmp" };
+	for( int y = 0; y < temp.GetHeight() / tileSize; ++y )
+	{
+		for( int x = 0; x < temp.GetWidth() / tileSize; ++x )
+		{
+			wallSprs.emplace_back( temp.GetClipped( RectI{
+				Vei2{ x,y } * tileSize,
+				tileSize,tileSize } ) );
+		}
+	}
 }
 
 void TileMap::Draw( Graphics& gfx ) const
@@ -16,15 +29,22 @@ void TileMap::Draw( Graphics& gfx ) const
 		for( int x = 0; x < width; ++x )
 		{
 			const auto tile = GetTile( x,y );
-			if( tile == TileType::Air )
+			// if( tile == TileType::Air )
+			// {
+			// 	gfx.DrawRect( x * tileSize,y * tileSize,
+			// 		tileSize,tileSize,Colors::Cyan );
+			// }
+			// else if( tile == TileType::Wall )
+			// {
+			// 	gfx.DrawRect( x * tileSize,y * tileSize,
+			// 		tileSize,tileSize,Colors::Gray );
+			// }
+			
+			if( tile != TileType::Air )
 			{
-				gfx.DrawRect( x * tileSize,y * tileSize,
-					tileSize,tileSize,Colors::Cyan );
-			}
-			else if( tile == TileType::Wall )
-			{
-				gfx.DrawRect( x * tileSize,y * tileSize,
-					tileSize,tileSize,Colors::Gray );
+				gfx.DrawSprite( x * tileSize,y * tileSize,
+					wallSprs[int( tile ) - 1],false,
+					SpriteEffect::Chroma{} );
 			}
 		}
 	}
@@ -60,6 +80,8 @@ void TileMap::LoadMap( const std::string& src )
 				keySpawns.emplace_back( Vei2{ x,y } );
 				c = '0';
 			}
+
+			if( c == '1' ) c = char( int( Random{ 1,4 } ) ) + '0';
 
 			tiles[i] = TileType( c - '0' );
 			++i;

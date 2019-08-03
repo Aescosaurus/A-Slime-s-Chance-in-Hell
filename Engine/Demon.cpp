@@ -1,12 +1,18 @@
 #include "Demon.h"
+#include "SpriteEffect.h"
 
 Demon::Demon( const Vec2& pos )
 	:
-	coll( pos,radius )
-{}
+	coll( pos,radius ),
+	anim( 0,0,30,30,4,*sprSheet,0.2f )
+{
+	anim.RandomizeCurFrame();
+}
 
 void Demon::Update( const Vec2& playerPos,const TorchHandler& torchHandler,float dt )
 {
+	anim.Update( dt );
+
 	retargetTimer.Update( dt );
 	if( retargetTimer.IsDone() )
 	{
@@ -32,7 +38,10 @@ void Demon::Draw( Graphics& gfx ) const
 {
 	if( canDraw )
 	{
-		coll.Draw( Colors::Red,gfx );
+		// coll.Draw( Colors::Red,gfx );
+
+		anim.Draw( Vei2( coll.pos * float( TileMap::tileSize ) ),
+			gfx,true,SpriteEffect::Chroma{} );
 	}
 }
 

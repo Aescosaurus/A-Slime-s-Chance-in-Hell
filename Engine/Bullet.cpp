@@ -12,8 +12,8 @@ void Bullet::Update( const TileMap& map,float dt )
 
 	pos += vel * dt;
 
-	if( map.GetTile( int( pos.x ),int( pos.y ) ) ==
-		TileMap::TileType::Wall )
+	if( map.GetTile( int( pos.x ),int( pos.y ) ) !=
+		TileMap::TileType::Air )
 	{
 		cull = true;
 	}
