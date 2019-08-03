@@ -11,6 +11,7 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	player( map )
 {
 	LoadNextLevel();
+	LoadNextLevel();
 }
 
 // void Campaign::Update()
@@ -311,6 +312,7 @@ void Campaign::LoadNextLevel()
 	startAction.Reset();
 	chargeTimer.Reset();
 
+	map.Reset();
 	torchHandler.Reset();
 	enemySpawner.Reset();
 	bullets.clear();
@@ -335,6 +337,7 @@ void Campaign::LoadNextLevel()
 	}
 
 	player.Reset();
+	torchHandler.PlaceTorch( player.GetColl().pos );
 }
 
 // void Campaign::PlayerJump()

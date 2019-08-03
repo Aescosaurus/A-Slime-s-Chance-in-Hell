@@ -2,7 +2,8 @@
 
 Player::Player( const TileMap& map )
 	:
-	coll( Vec2( map.GetPlayerSpawn() ),radius ),
+	coll( Vec2( map.GetPlayerSpawn() ) + Vec2{ radius,radius },
+		radius ),
 	map( map )
 {}
 
@@ -56,7 +57,8 @@ void Player::HybridJump( const Vec2& diff )
 
 void Player::Reset()
 {
-	coll.pos = Vec2( map.GetPlayerSpawn() );
+	coll.pos = Vec2( map.GetPlayerSpawn() ) +
+		Vec2{ radius,radius };
 	// Reset animations maybe?
 }
 

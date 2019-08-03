@@ -18,5 +18,9 @@ public:
 private:
 	std::vector<Vei2> spawnPosList;
 	std::vector<Demon> demons;
-	Timer demonSpawnTimer = 7.0f;
+	// Timer demonSpawnTimer = 7.0f;
+	Timer waveSpawnTimer = 17.0f;
+	Timer enemySpawnTimer = 2.0f;
+	static constexpr int enemiesPerWave = 3;
+	int curWaveEnemy = 0;
 };

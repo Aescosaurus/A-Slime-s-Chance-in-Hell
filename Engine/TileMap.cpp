@@ -72,6 +72,12 @@ void TileMap::LoadMap( const std::string& src )
 	}
 }
 
+void TileMap::Reset()
+{
+	enemySpawns.clear();
+	keySpawns.clear();
+}
+
 TileMap::TileType TileMap::GetTile( int x,int y ) const
 {
 	if( x < 0 ) x = 0;

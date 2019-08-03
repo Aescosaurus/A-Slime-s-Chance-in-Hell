@@ -15,7 +15,7 @@ public:
 	const Collider& GetColl() const;
 	bool IsVisible() const;
 private:
-	static constexpr float radius = 0.4f;
+	static constexpr float radius = 0.5f;
 	Collider coll;
 	bool canDraw = false;
 };

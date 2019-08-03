@@ -2,7 +2,7 @@
 
 Key::Key( const Vei2& pos )
 	:
-	coll( Vec2( pos ) + Vec2{ radius,radius },radius )
+	coll( Vec2( pos ) + Vec2{ -radius,radius },radius )
 {}
 
 void Key::Update( const TorchHandler& torchHandler,float dt )

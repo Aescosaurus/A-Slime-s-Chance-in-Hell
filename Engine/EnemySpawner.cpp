@@ -3,13 +3,32 @@
 
 void EnemySpawner::Update( const Vec2& playerPos,const TorchHandler& torchHandler,float dt )
 {
-	demonSpawnTimer.Update( dt );
-	if( demonSpawnTimer.IsDone() )
+	// demonSpawnTimer.Update( dt );
+	// if( demonSpawnTimer.IsDone() )
+	// {
+	// 	demonSpawnTimer.Reset();
+	// 
+	// 	demons.emplace_back( Demon{ Vec2( spawnPosList[
+	// 		int( Random{ 0,int( spawnPosList.size() - 1 ) } )] ) } );
+	// }
+	waveSpawnTimer.Update( dt );
+	if( waveSpawnTimer.IsDone() )
 	{
-		demonSpawnTimer.Reset();
+		enemySpawnTimer.Update( dt );
+		if( enemySpawnTimer.IsDone() )
+		{
+			enemySpawnTimer.Reset();
+			++curWaveEnemy;
 
-		demons.emplace_back( Demon{ Vec2( spawnPosList[
-			int( Random{ 0,int( spawnPosList.size() - 1 ) } )] ) } );
+			demons.emplace_back( Demon{ Vec2( spawnPosList[
+				int( Random{ 0,int( spawnPosList.size() - 1 ) } )] ) } );
+
+			if( curWaveEnemy >= enemiesPerWave )
+			{
+				curWaveEnemy = 0;
+				waveSpawnTimer.Reset();
+			}
+		}
 	}
 
 	for( auto& demon : demons )
@@ -35,7 +54,9 @@ void EnemySpawner::Reset()
 {
 	spawnPosList.clear();
 	demons.clear();
-	demonSpawnTimer.Reset();
+	// demonSpawnTimer.Reset();
+	waveSpawnTimer.Reset();
+	enemySpawnTimer.Reset();
 }
 
 std::vector<Demon>& EnemySpawner::GetEnemies()
