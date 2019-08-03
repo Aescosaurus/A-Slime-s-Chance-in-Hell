@@ -31,6 +31,13 @@ void EnemySpawner::AddPos( const Vei2& pos )
 	spawnPosList.emplace_back( pos );
 }
 
+void EnemySpawner::Reset()
+{
+	spawnPosList.clear();
+	demons.clear();
+	demonSpawnTimer.Reset();
+}
+
 std::vector<Demon>& EnemySpawner::GetEnemies()
 {
 	return( demons );

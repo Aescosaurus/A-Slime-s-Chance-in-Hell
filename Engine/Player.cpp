@@ -54,6 +54,12 @@ void Player::HybridJump( const Vec2& diff )
 	}
 }
 
+void Player::Reset()
+{
+	coll.pos = Vec2( map.GetPlayerSpawn() );
+	// Reset animations maybe?
+}
+
 const Collider& Player::GetColl() const
 {
 	return( coll );

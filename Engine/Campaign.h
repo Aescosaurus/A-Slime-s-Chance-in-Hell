@@ -23,6 +23,7 @@ public:
 	void Draw();
 private:
 	// void PlayerJump();
+	void LoadNextLevel();
 private:
 	Keyboard& kbd;
 	Mouse& mouse;
@@ -31,6 +32,7 @@ private:
 	FrameTimer ft;
 	TileMap map;
 	Player player;
+	int curLevel = -1;
 
 	// Timer actionTimer = 1.0f;
 	// float chargePower = 0.0f;

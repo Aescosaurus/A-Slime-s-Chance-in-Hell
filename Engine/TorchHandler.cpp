@@ -52,6 +52,15 @@ void TorchHandler::PlaceTorch( const Vec2& pos )
 	torches.emplace_back( temp );
 }
 
+void TorchHandler::Reset()
+{
+	overlay.DrawRect( 0,0,
+		overlay.GetWidth(),overlay.GetHeight(),
+		Colors::Black );
+
+	torches.clear();
+}
+
 const std::vector<TorchHandler::TorchItem>& TorchHandler::GetTorches() const
 {
 	return( torches );

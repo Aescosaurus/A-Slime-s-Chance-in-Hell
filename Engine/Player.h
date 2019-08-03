@@ -18,6 +18,7 @@ public:
 	// void Jump( const Vec2& diff );
 	void HybridJump( const Vec2& diff );
 	// void Shoot( const Vec2& diff );
+	void Reset();
 
 	const Collider& GetColl() const;
 private:

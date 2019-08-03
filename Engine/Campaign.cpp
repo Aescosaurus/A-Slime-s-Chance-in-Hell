@@ -10,15 +10,7 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	gfx( gfx ),
 	player( map )
 {
-	for( const auto& pos : map.GetEnemySpawns() )
-	{
-		enemySpawner.AddPos( pos );
-	}
-
-	for( const auto& pos : map.GetKeySpawns() )
-	{
-		keys.emplace_back( Key{ pos } );
-	}
+	LoadNextLevel();
 }
 
 // void Campaign::Update()
@@ -266,6 +258,10 @@ void Campaign::Update2()
 			chili::remove_element( keys,selectedKey );
 			selectedKey = -1;
 			// Play animation for collecting key.
+			if( keys.size() == 0 )
+			{
+				// load next level.
+			}
 			break;
 		case ActionType::PlaceTorch:
 			torchHandler.PlaceTorch( player.GetColl().pos );
@@ -299,6 +295,39 @@ void Campaign::Draw()
 	// 	( player.GetColl().pos + ( diff * chargePower ) ) *
 	// 	TileMap::tileSize,
 	// 	Colors::White );
+}
+
+void Campaign::LoadNextLevel()
+{
+	curAction = ActionType::None;
+	testAction = ActionType::None;
+	startAction.Reset();
+	chargeTimer.Reset();
+
+	torchHandler.Reset();
+	enemySpawner.Reset();
+	bullets.clear();
+	keys.clear();
+	selectedKey = -1;
+
+	++curLevel;
+
+	const std::string nextLevelName = "Levels/Level" +
+		std::to_string( curLevel ) + ".lvl";
+
+	map.LoadMap( nextLevelName );
+
+	for( const auto& pos : map.GetEnemySpawns() )
+	{
+		enemySpawner.AddPos( pos );
+	}
+
+	for( const auto& pos : map.GetKeySpawns() )
+	{
+		keys.emplace_back( Key{ pos } );
+	}
+
+	player.Reset();
 }
 
 // void Campaign::PlayerJump()

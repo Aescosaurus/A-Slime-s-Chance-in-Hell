@@ -12,6 +12,7 @@ public:
 	void Draw( const TorchHandler& torchHandler,Graphics& gfx ) const;
 
 	void AddPos( const Vei2& pos );
+	void Reset();
 
 	std::vector<Demon>& GetEnemies();
 private:

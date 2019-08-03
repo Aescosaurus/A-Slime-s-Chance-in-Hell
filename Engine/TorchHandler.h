@@ -21,6 +21,7 @@ public:
 	void Draw( Graphics& gfx ) const;
 
 	void PlaceTorch( const Vec2& pos );
+	void Reset();
 
 	const std::vector<TorchItem>& GetTorches() const;
 private:
