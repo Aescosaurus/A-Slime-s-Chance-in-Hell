@@ -55,6 +55,15 @@ void Key::Collect()
 	collectSound->Play();
 }
 
+void Key::StartCollect()
+{
+	if( !startedCollect )
+	{
+		startedCollect = true;
+		keyCollectSound->Play();
+	}
+}
+
 const Collider& Key::GetColl() const
 {
 	return( coll );

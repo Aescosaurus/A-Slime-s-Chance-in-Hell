@@ -62,4 +62,5 @@ private:
 	static constexpr float cullJumpPower = 9.5f;
 	// const SoundEffect jumpSound = "Sounds/Jump.wav";
 	CSoundPtr jumpSound = SoundCodex::Fetch( "Sounds/Jump.wav" );
+	CSoundPtr landSound = SoundCodex::Fetch( "Sounds/Land.wav" );
 };

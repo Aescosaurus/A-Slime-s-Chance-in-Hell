@@ -52,6 +52,7 @@ void Player::Update( float dt )
 					goIdleTimer.Reset();
 					SwitchAction( State::Idle );
 					jumping = false;
+					landSound->Play();
 				}
 			}
 			vel.x *= velDecayRate;

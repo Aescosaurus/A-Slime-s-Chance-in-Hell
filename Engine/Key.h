@@ -15,6 +15,7 @@ public:
 	void Draw( Graphics& gfx ) const;
 
 	void Collect();
+	void StartCollect();
 
 	const Collider& GetColl() const;
 	bool IsVisible() const;
@@ -31,4 +32,6 @@ private:
 	static constexpr float jumpPower = 9.5f;
 	bool cull = false;
 	CSoundPtr collectSound = SoundCodex::Fetch( "Sounds/Key.wav" );
+	CSoundPtr keyCollectSound = SoundCodex::Fetch( "Sounds/KeyCollect.wav" );
+	bool startedCollect = false;
 };

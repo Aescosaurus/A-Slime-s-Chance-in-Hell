@@ -272,10 +272,18 @@ void Campaign::Update2()
 			testAction != ActionType::None )
 		{
 			chargeTimer.Update( dt );
-			if( curAction == ActionType::Jump &&
-				chargeTimer.GetPercent() > 0.2f )
+
+			if( chargeTimer.GetPercent() > 0.2f )
 			{
-				player.ChargeJump();
+				switch( curAction )
+				{
+				case ActionType::Jump:
+					player.ChargeJump();
+					break;
+				case ActionType::CollectKey:
+					keys[selectedKey].StartCollect();
+					break;
+				}
 			}
 		}
 	}
