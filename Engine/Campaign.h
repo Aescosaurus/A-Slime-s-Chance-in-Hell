@@ -55,6 +55,11 @@ private:
 	Button quitButton = Button{ Surface{ "Images/QuitButton1.bmp" },Graphics::GetScreenRect().GetCenter() + Vei2::Down() * 200 - Vei2{ 43,20 } * 3 / 2 };
 	bool showQuitButton = false;
 
+	CSoundPtr bgm = SoundCodex::Fetch( "Sounds/MainMusic.wav" );
+	Timer bgmTimer = 32.6f;
+	CSoundPtr winMusic = SoundCodex::Fetch( "Sounds/WinMusic.wav" );
+	Timer winMusicTimer = 12.5f;
+
 	// Timer actionTimer = 1.0f;
 	// float chargePower = 0.0f;
 	// bool jumping = false;

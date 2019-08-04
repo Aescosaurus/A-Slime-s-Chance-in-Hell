@@ -13,10 +13,15 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	tutorialDemon( Vec2{ -99.0f,-99.0f } )
 {
 	LoadNextLevel();
-	LoadNextLevel();
-	LoadNextLevel();
-	LoadNextLevel();
-	LoadNextLevel();
+
+	bgmTimer.Update( 9999.0f );
+	winMusicTimer.Update( 9999.0f );
+
+	// Goes to latest level (for testing).
+	for( int i = 0; i < nLevels - 1; ++i )
+	{
+		LoadNextLevel();
+	}
 }
 
 // void Campaign::Update()
@@ -113,6 +118,16 @@ bool Campaign::Update2()
 
 	if( curLevel == nLevels )
 	{
+		bgmTimer.Reset();
+		bgm->StopAll();
+
+		winMusicTimer.Update( dt );
+		if( winMusicTimer.IsDone() )
+		{
+			winMusicTimer.Reset();
+			winMusic->Play( 0.2f );
+		}
+
 		if( textPos.y > 15.0f ) textPos.y -= textMoveSpeed * dt;
 		if( textPos.y < float( Graphics::ScreenHeight / 5 ) )
 		{
@@ -126,9 +141,19 @@ bool Campaign::Update2()
 		return( false );
 	}
 
+	bgmTimer.Update( dt );
+	if( bgmTimer.IsDone() )
+	{
+		bgmTimer.Reset();
+		bgm->Play( 0.2f );
+	}
+
 	torchHandler.Update( dt );
-	if( tut.LightPlayer() ) torchHandler.LightPlayer(
-		player.GetColl().pos * TileMap::tileSize );
+	if( curLevel == 0 && tut.LightPlayer() )
+	{
+		torchHandler.LightPlayer(
+			player.GetColl().pos * TileMap::tileSize );
+	}
 
 	enemySpawner.Update( player.GetColl().pos,torchHandler,dt );
 	tutorialDemon.UpdateNoMove( torchHandler,dt );
