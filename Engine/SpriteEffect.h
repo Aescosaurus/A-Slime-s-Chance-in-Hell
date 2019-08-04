@@ -15,8 +15,8 @@ namespace SpriteEffect
 		{}
 		void operator()( Color cSrc,int xDest,int yDest,Graphics& gfx ) const
 		{
-			gfx.PutPixelAlpha( xDest,yDest,cSrc,
-				std::max( 0.0f,fade - ( float( cSrc.GetR() ) / 255.0f ) ) );
+			gfx.PutPixelAlpha( xDest,yDest,Colors::Black,std::max( 0.0f,
+				fade - ( float( cSrc.GetR() ) / 255.0f ) ) );
 		}
 	private:
 		float fade;

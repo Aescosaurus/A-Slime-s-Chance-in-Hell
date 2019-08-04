@@ -24,9 +24,9 @@ void TorchHandler::Update( float dt )
 	{
 		it->burnoutTimer.Update( dt );
 
-		const auto col = 255 - int( it->burnoutTimer.GetPercent() * 255.0f );
+		const auto col = int( 255.0f - it->burnoutTimer.GetPercent() * 255.0f );
 		overlay.DrawCircle( it->pos,it->radius,
-			Colors::MakeRGB( col,col,col ) );
+			Colors::MakeRGB( col,col,col / 2 ) );
 	}
 
 	chili::remove_erase_if( torches,[]( const TorchItem& torch )
