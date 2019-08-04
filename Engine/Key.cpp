@@ -11,16 +11,28 @@ Key::Key( const Vei2& pos )
 
 void Key::Update( const TorchHandler& torchHandler,float dt )
 {
-	anim.Update( dt );
-
-	canDraw = false;
-	for( const auto& torch : torchHandler.GetTorches() )
+	if( !collected )
 	{
-		if( coll.IsCollidingWith( Collider{ Vec2( torch.pos ) /
-			TileMap::tileSize,float( torch.radius ) /
-			TileMap::tileSize } ) )
+		anim.Update( dt );
+
+		canDraw = false;
+		for( const auto& torch : torchHandler.GetTorches() )
 		{
-			canDraw = true;
+			if( coll.IsCollidingWith( Collider{ Vec2( torch.pos ) /
+				TileMap::tileSize,float( torch.radius ) /
+				TileMap::tileSize } ) )
+			{
+				canDraw = true;
+			}
+		}
+	}
+	else
+	{
+		vel.y += gravAcc * dt;
+		coll.pos += vel * dt;
+		if( coll.pos.y - coll.radius > float( Graphics::ScreenHeight ) )
+		{
+			cull = true;
 		}
 	}
 }
@@ -36,6 +48,12 @@ void Key::Draw( Graphics& gfx ) const
 	}
 }
 
+void Key::Collect()
+{
+	collected = true;
+	vel.y -= jumpPower;
+}
+
 const Collider& Key::GetColl() const
 {
 	return( coll );
@@ -44,4 +62,9 @@ const Collider& Key::GetColl() const
 bool Key::IsVisible() const
 {
 	return( canDraw );
+}
+
+bool Key::WillCull() const
+{
+	return( cull );
 }

@@ -131,6 +131,7 @@ void Campaign::Update2()
 
 	chili::remove_erase_if( bullets,std::mem_fn( &Bullet::WillCull ) );
 	chili::remove_erase_if( enemySpawner.GetEnemies(),std::mem_fn( &Demon::WillCull ) );
+	chili::remove_erase_if( keys,std::mem_fn( &Key::WillCull ) );
 
 	{
 		const auto& enemies = enemySpawner.GetEnemies();
@@ -147,9 +148,16 @@ void Campaign::Update2()
 		if( !collidedEnemy ) deathTimer.Reset();
 		if( deathTimer.IsDone() )
 		{
-			--curLevel;
-			LoadNextLevel();
+			// --curLevel;
+			// LoadNextLevel();
+			player.Cull();
 		}
+	}
+
+	if( player.WillCull() )
+	{
+		--curLevel;
+		LoadNextLevel();
 	}
 
 	const auto mousePos = Vec2( mouse.GetPos() ) / TileMap::tileSize;
@@ -200,6 +208,7 @@ void Campaign::Update2()
 					{
 						startAction.Reset();
 						selectedKey = i;
+						// key.Collect();
 						curAction = ActionType::CollectKey;
 					}
 					testAction = ActionType::CollectKey;
@@ -295,13 +304,13 @@ void Campaign::Update2()
 			break;
 		case ActionType::CollectKey:
 			assert( selectedKey != -1 );
-			chili::remove_element( keys,selectedKey );
+			// chili::remove_element( keys,selectedKey );
+			keys[selectedKey].Collect();
 			selectedKey = -1;
-			// Play animation for collecting key.
-			if( keys.size() == 0 )
-			{
-				LoadNextLevel();
-			}
+			// if( keys.size() == 0 )
+			// {
+			// 	LoadNextLevel();
+			// }
 			break;
 		case ActionType::PlaceTorch:
 			torchHandler.PlaceTorch( player.GetColl().pos );

@@ -31,8 +31,10 @@ public:
 	void Reset();
 	void ChargeJump();
 	void Idlize();
+	void Cull();
 
 	const Collider& GetColl() const;
+	bool WillCull() const;
 private:
 	void SwitchAction( State state );
 private:
@@ -53,4 +55,7 @@ private:
 	Animation jump;
 	State action = State::Idle;
 	Timer goIdleTimer = 0.1f;
+	bool cull = false;
+	bool startedCull = false;
+	static constexpr float cullJumpPower = 9.5f;
 };

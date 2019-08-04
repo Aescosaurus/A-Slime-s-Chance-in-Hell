@@ -13,51 +13,63 @@ Player::Player( const TileMap& map )
 
 void Player::Update( float dt )
 {
-	auto& pos = coll.pos;
-
-	vel.y += gravAcc * dt;
-
-	vel *= velDecayRate;
-
-	const auto moveInfo = coll.CanMove( map,vel * dt );
-
-	if( moveInfo.x )
+	if( startedCull )
 	{
-		pos.x += vel.x * dt;
-	}
-
-	if( moveInfo.y )
-	{
-		pos.y += vel.y * dt;
-		canJump = false;
+		vel.y += gravAcc * dt;
+		coll.pos += vel * dt;
+		if( coll.pos.y - coll.radius > float( Graphics::ScreenHeight ) )
+		{
+			cull = true;
+		}
 	}
 	else
 	{
-		if( action == State::Jump )
-		{
-			goIdleTimer.Update( dt );
-			if( goIdleTimer.IsDone() )
-			{
-				goIdleTimer.Reset();
-				SwitchAction( State::Idle );
-			}
-		}
-		vel.x *= velDecayRate;
-		vel.y = 0.0f;
-		canJump = true;
-	}
+		auto& pos = coll.pos;
 
-	switch( action )
-	{
-	case State::Idle:
-		idle.Update( dt );
-		break;
-	case State::Charge:
-		charge.Update( dt );
-		break;
-	case State::Jump:
-		jump.Update( dt );
-		break;
+		vel.y += gravAcc * dt;
+
+		vel *= velDecayRate;
+
+		const auto moveInfo = coll.CanMove( map,vel * dt );
+
+		if( moveInfo.x )
+		{
+			pos.x += vel.x * dt;
+		}
+
+		if( moveInfo.y )
+		{
+			pos.y += vel.y * dt;
+			canJump = false;
+		}
+		else
+		{
+			if( action == State::Jump )
+			{
+				goIdleTimer.Update( dt );
+				if( goIdleTimer.IsDone() )
+				{
+					goIdleTimer.Reset();
+					SwitchAction( State::Idle );
+				}
+			}
+			vel.x *= velDecayRate;
+			vel.y = 0.0f;
+			canJump = true;
+		}
+
+		switch( action )
+		{
+		case State::Idle:
+			idle.Update( dt );
+			break;
+		case State::Charge:
+			charge.Update( dt );
+			break;
+		case State::Jump:
+			jump.Update( dt );
+			break;
+		}
 	}
 }
 
@@ -102,7 +114,11 @@ void Player::Reset()
 {
 	coll.pos = Vec2( map.GetPlayerSpawn() ) +
 		Vec2{ radius,radius };
-	// Reset animations maybe?
+	idle.Reset();
+	charge.Reset();
+	jump.Reset();
+	cull = false;
+	startedCull = false;
 }
 
 void Player::ChargeJump()
@@ -115,9 +131,21 @@ void Player::Idlize()
 	if( action == State::Charge ) SwitchAction( State::Idle );
 }
 
+void Player::Cull()
+{
+	startedCull = true;
+	vel = { 0.0f,0.0f };
+	vel.y -= cullJumpPower;
+}
+
 const Collider& Player::GetColl() const
 {
 	return( coll );
+}
+
+bool Player::WillCull() const
+{
+	return( cull );
 }
 
 void Player::SwitchAction( State state )
