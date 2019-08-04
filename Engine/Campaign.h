@@ -12,6 +12,7 @@
 #include "EnemySpawner.h"
 #include "Bullet.h"
 #include "Key.h"
+#include "ProgressBar.h"
 
 class Campaign
 {
@@ -56,4 +57,5 @@ private:
 	Timer deathTimer = 1.0f;
 
 	const Surface background = "Images/Background.bmp";
+	ProgressBar pb;
 };

@@ -351,6 +351,20 @@ void Graphics::DrawRect( int x,int y,int width,int height,Color c )
 	}
 }
 
+void Graphics::DrawRectSafe( int x,int y,int width,int height,Color c )
+{
+	for( int yY = y; yY < y + height; ++yY )
+	{
+		for( int xX = x; xX < x + width; ++xX )
+		{
+			if( GetScreenRect().ContainsPoint( Vei2{ xX,yY } ) )
+			{
+				PutPixel( xX,yY,c );
+			}
+		}
+	}
+}
+
 void Graphics::DrawCircle( const Vei2& pos,int radius,Color c )
 {
 	const int radiusSq = radius * radius;

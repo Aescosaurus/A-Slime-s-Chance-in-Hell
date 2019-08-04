@@ -22,4 +22,5 @@ private:
 	bool canDraw = false;
 	CSurfPtr sprSheet = SurfCodex::Fetch( "Images/Key.bmp" );
 	Animation anim;
+	Vei2 drawPos;
 };

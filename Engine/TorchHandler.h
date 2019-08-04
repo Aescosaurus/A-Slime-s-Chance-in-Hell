@@ -26,7 +26,7 @@ public:
 	const std::vector<TorchItem>& GetTorches() const;
 private:
 	Surface overlay;
-	static constexpr float globalOpacity = 0.8f;
+	static constexpr float globalOpacity = 0.5f;
 	static constexpr float darkenRate = 0.2f;
 	std::vector<TorchItem> torches;
 };

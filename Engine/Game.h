@@ -44,5 +44,6 @@ private:
 	/********************************/
 	/*  User Variables              */
 	Campaign cam;
+	const Surface cursorSpr = "Images/Cursor.bmp";
 	/********************************/
 };

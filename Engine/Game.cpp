@@ -20,6 +20,7 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "SpriteEffect.h"
 
 Game::Game( MainWindow& wnd )
 	:
@@ -27,6 +28,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	cam( wnd.kbd,wnd.mouse,gfx )
 {
+	wnd.Maximize();
 }
 
 void Game::Go()
@@ -39,10 +41,18 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if( wnd.kbd.KeyIsPressed( VK_CONTROL ) &&
+		wnd.kbd.KeyIsPressed( 'W' ) )
+	{
+		wnd.Kill();
+	}
 	cam.Update2();
 }
 
 void Game::ComposeFrame()
 {
 	cam.Draw();
+	gfx.DrawSprite( wnd.mouse.GetPosX(),
+		wnd.mouse.GetPosY(),cursorSpr,false,
+		SpriteEffect::Chroma{} );
 }

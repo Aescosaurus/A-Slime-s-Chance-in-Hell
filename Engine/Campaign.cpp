@@ -320,6 +320,12 @@ void Campaign::Draw()
 
 	torchHandler.Draw( gfx );
 
+	pb.Draw( mouse.GetPos() + Vei2::Down() * 30,
+		chargeTimer.GetPercent(),Colors::White,gfx );
+	pb.Draw( player.GetColl().pos * TileMap::tileSize +
+		Vei2::Down() * 30,
+		deathTimer.GetPercent(),Colors::Red,gfx );
+
 	// gfx.DrawLine( player.GetColl().pos * TileMap::tileSize,
 	// 	( player.GetColl().pos + ( diff * chargePower ) ) *
 	// 	TileMap::tileSize,
