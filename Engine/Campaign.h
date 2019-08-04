@@ -58,4 +58,5 @@ private:
 
 	const Surface background = "Images/Background.bmp";
 	ProgressBar pb;
+	std::string actionName = "";
 };

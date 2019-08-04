@@ -163,6 +163,7 @@ void Campaign::Update2()
 				if( demon.GetColl().Contains( mousePos ) &&
 					demon.IsVisible() )
 				{
+					actionName = "Attack";
 					startAction.Update( dt );
 					if( testAction != ActionType::Attack )
 					{
@@ -189,6 +190,7 @@ void Campaign::Update2()
 					key.GetColl().Contains( mousePos ) &&
 					key.IsVisible() )
 				{
+					actionName = "Key";
 					startAction.Update( dt );
 					if( testAction != ActionType::CollectKey )
 					{
@@ -207,6 +209,7 @@ void Campaign::Update2()
 
 			if( player.GetColl().Contains( mousePos ) )
 			{
+				actionName = "Light";
 				startAction.Update( dt );
 				if( testAction != ActionType::PlaceTorch )
 				{
@@ -224,6 +227,7 @@ void Campaign::Update2()
 			const auto diff = mousePos - player.GetColl().pos;
 			if( std::abs( diff.x ) > std::abs( diff.y ) )
 			{
+				actionName = "Jump";
 				startAction.Update( dt );
 				if( testAction != ActionType::Move )
 				{
@@ -239,6 +243,7 @@ void Campaign::Update2()
 			}
 			else
 			{
+				actionName = "Jump";
 				startAction.Update( dt );
 				if( testAction != ActionType::Jump )
 				{
@@ -321,10 +326,12 @@ void Campaign::Draw()
 	torchHandler.Draw( gfx );
 
 	pb.Draw( mouse.GetPos() + Vei2::Down() * 30,
-		chargeTimer.GetPercent(),Colors::White,gfx );
+		chargeTimer.GetPercent(),Colors::White,
+		actionName,gfx );
 	pb.Draw( player.GetColl().pos * TileMap::tileSize +
 		Vei2::Down() * 30,
-		deathTimer.GetPercent(),Colors::Red,gfx );
+		deathTimer.GetPercent(),Colors::Red,
+		"Ouch",gfx );
 
 	// gfx.DrawLine( player.GetColl().pos * TileMap::tileSize,
 	// 	( player.GetColl().pos + ( diff * chargePower ) ) *

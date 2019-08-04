@@ -150,6 +150,7 @@
     <ClInclude Include="Demon.h" />
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="EnemySpawner.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Demon.cpp" />
     <ClCompile Include="DXErr.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Key.cpp" />

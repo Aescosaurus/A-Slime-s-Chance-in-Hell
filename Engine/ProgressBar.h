@@ -2,6 +2,7 @@
 
 #include "Graphics.h"
 #include <string>
+#include "Codex.h"
 
 class ProgressBar
 {
@@ -11,4 +12,5 @@ public:
 private:
 	static constexpr int width = 100;
 	static constexpr int height = 20;
+	CFontPtr luckyPixel = FontCodex::Fetch( "Fonts/LuckyPixel6x9.bmp" );
 };

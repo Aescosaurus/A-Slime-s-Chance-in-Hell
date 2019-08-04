@@ -21,7 +21,6 @@ namespace SpriteEffect
 	private:
 		float fade;
 	};
-
 	class Chroma
 	{
 	public:
@@ -39,7 +38,6 @@ namespace SpriteEffect
 	private:
 		Color chroma;
 	};
-
 	class Copy
 	{
 	public:
@@ -47,5 +45,24 @@ namespace SpriteEffect
 		{
 			gfx.PutPixel( xDest,yDest,cSrc );
 		}
+	};
+	class Substitution
+	{
+	public:
+		Substitution( Color c,Color s )
+			:
+			chroma( c ),
+			sub( s )
+		{}
+		void operator()( Color cSrc,int xDest,int yDest,Graphics& gfx ) const
+		{
+			if( cSrc != chroma )
+			{
+				gfx.PutPixel( xDest,yDest,sub );
+			}
+		}
+	private:
+		Color chroma = Colors::Magenta;
+		Color sub;
 	};
 }
