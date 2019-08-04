@@ -73,6 +73,16 @@ void Player::Update( float dt )
 			break;
 		}
 	}
+	
+	if( startedShooting )
+	{
+		shotRefire.Update( dt );
+		if( shotRefire.IsDone() )
+		{
+			shotRefire.Reset();
+			startedShooting = false;
+		}
+	}
 }
 
 void Player::Draw( Graphics& gfx ) const
@@ -143,6 +153,15 @@ void Player::Cull()
 	startedCull = true;
 	vel = { 0.0f,0.0f };
 	vel.y -= cullJumpPower;
+}
+
+void Player::ShootStart()
+{
+	if( !startedShooting )
+	{
+		startedShooting = true;
+		shootStartSound->Play( 0.2f );
+	}
 }
 
 const Collider& Player::GetColl() const

@@ -24,4 +24,5 @@ private:
 	bool cull = false;
 	CSurfPtr sprSheet = SurfCodex::Fetch( "Images/Bullet.bmp" );
 	Animation anim;
+	CSoundPtr shootSound = SoundCodex::Fetch( "Sounds/Shoot.wav" );
 };

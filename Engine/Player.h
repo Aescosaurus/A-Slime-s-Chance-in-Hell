@@ -33,6 +33,7 @@ public:
 	void ChargeJump();
 	void Idlize();
 	void Cull();
+	void ShootStart();
 
 	const Collider& GetColl() const;
 	bool WillCull() const;
@@ -63,4 +64,7 @@ private:
 	// const SoundEffect jumpSound = "Sounds/Jump.wav";
 	CSoundPtr jumpSound = SoundCodex::Fetch( "Sounds/Jump.wav" );
 	CSoundPtr landSound = SoundCodex::Fetch( "Sounds/Land.wav" );
+	CSoundPtr shootStartSound = SoundCodex::Fetch( "Sounds/ShootStart.wav" );
+	bool startedShooting = false;
+	Timer shotRefire = 1.0f;
 };

@@ -6,7 +6,9 @@ Bullet::Bullet( const Vec2& pos,const Vec2& target )
 	coll( pos,radius ),
 	vel( ( target - pos ).GetNormalized() * moveSpeed ),
 	anim( 0,0,30,30,4,*sprSheet,0.2f )
-{}
+{
+	shootSound->Play();
+}
 
 void Bullet::Update( const TileMap& map,float dt )
 {

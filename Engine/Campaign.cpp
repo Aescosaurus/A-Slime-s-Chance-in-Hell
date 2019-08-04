@@ -283,6 +283,9 @@ void Campaign::Update2()
 				case ActionType::CollectKey:
 					keys[selectedKey].StartCollect();
 					break;
+				case ActionType::Attack:
+					player.ShootStart();
+					break;
 				}
 			}
 		}
