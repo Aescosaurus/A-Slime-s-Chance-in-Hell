@@ -8,6 +8,7 @@
 #include "Codex.h"
 #include "Animation.h"
 #include "Timer.h"
+#include "Sound.h"
 
 class Player
 {
@@ -48,6 +49,7 @@ private:
 	static constexpr float gravAcc = 30.0f;
 	static constexpr float velDecayRate = 0.97f;
 	bool canJump = false;
+	bool jumping = false;
 	static constexpr float hybridJumpPower = 29.0f;
 	CSurfPtr sprSheet = SurfCodex::Fetch( "Images/Player.bmp" );
 	Animation idle;
@@ -58,4 +60,5 @@ private:
 	bool cull = false;
 	bool startedCull = false;
 	static constexpr float cullJumpPower = 9.5f;
+	Sound jumpSound = L"Sounds/Jump.wav";
 };

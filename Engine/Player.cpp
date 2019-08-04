@@ -51,6 +51,7 @@ void Player::Update( float dt )
 				{
 					goIdleTimer.Reset();
 					SwitchAction( State::Idle );
+					jumping = false;
 				}
 			}
 			vel.x *= velDecayRate;
@@ -123,7 +124,12 @@ void Player::Reset()
 
 void Player::ChargeJump()
 {
-	if( canJump ) SwitchAction( State::Charge );
+	if( canJump && !jumping )
+	{
+		jumping = true;
+		SwitchAction( State::Charge );
+		jumpSound.Play();
+	}
 }
 
 void Player::Idlize()

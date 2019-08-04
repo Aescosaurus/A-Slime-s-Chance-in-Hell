@@ -51,9 +51,6 @@
     <ClInclude Include="Sound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SoundEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="COMInitializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -121,6 +118,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

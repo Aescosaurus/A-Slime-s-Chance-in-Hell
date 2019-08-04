@@ -5,6 +5,7 @@
 #include "TorchHandler.h"
 #include "Animation.h"
 #include "Codex.h"
+#include "Sound.h"
 
 class Key
 {

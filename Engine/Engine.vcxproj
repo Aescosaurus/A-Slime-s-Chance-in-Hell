@@ -160,6 +160,7 @@
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Rect.h" />
+    <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SpriteEffect.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="TileMap.h" />
@@ -167,7 +168,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sound.h" />
-    <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TorchHandler.h" />
     <ClInclude Include="Vec2.h" />
