@@ -51,12 +51,30 @@ void Game::UpdateModel()
 	{
 		wnd.Kill();
 	}
-	cam.Update2();
+
+	switch( gameState )
+	{
+	case State::Menu:
+		menu.Update( wnd.mouse );
+		if( menu.PressedStart() ) gameState = State::Game;
+		break;
+	case State::Game:
+		cam.Update2();
+		break;
+	}
 }
 
 void Game::ComposeFrame()
 {
-	cam.Draw();
+	switch( gameState )
+	{
+	case State::Menu:
+		menu.Draw( gfx );
+		break;
+	case State::Game:
+		cam.Draw();
+		break;
+	}
 	gfx.DrawSprite( wnd.mouse.GetPosX(),
 		wnd.mouse.GetPosY(),cursorSpr,false,
 		SpriteEffect::Chroma{} );

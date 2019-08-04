@@ -24,9 +24,16 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Campaign.h"
+#include "Menu.h"
 
 class Game
 {
+private:
+	enum class State
+	{
+		Menu,
+		Game
+	};
 public:
 	Game( class MainWindow& wnd );
 	Game( const Game& ) = delete;
@@ -46,5 +53,7 @@ private:
 	/*  User Variables              */
 	Campaign cam;
 	const Surface cursorSpr = "Images/Cursor.bmp";
+	State gameState = State::Menu;
+	Menu menu;
 	/********************************/
 };
