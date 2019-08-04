@@ -53,6 +53,18 @@ void Font::DrawTextCentered( const std::string& text,
 	DrawText( text,center - Vei2{ textWidth / 2,0 },color,gfx );
 }
 
+void Font::DrawLinesCentered( const std::vector<std::string>& lines,
+	const Vei2& center,Color color,Graphics& gfx ) const
+{
+	const int padding = 15;
+	for( int i = 0; i < int( lines.size() ); ++i )
+	{
+		DrawTextCentered( lines[i],center +
+			Vei2{ 0,glyphHeight * i + padding * i },
+			color,gfx );
+	}
+}
+
 Vei2 Font::GetGlyphSize() const
 {
 	return( Vei2{ glyphWidth,glyphHeight } );

@@ -52,6 +52,11 @@ void Game::UpdateModel()
 		wnd.Kill();
 	}
 
+	if( quitButton.Update( wnd.mouse ) )
+	{
+		wnd.Kill();
+	}
+
 	switch( gameState )
 	{
 	case State::Menu:
@@ -59,7 +64,10 @@ void Game::UpdateModel()
 		if( menu.PressedStart() ) gameState = State::Game;
 		break;
 	case State::Game:
-		cam.Update2();
+		if( cam.Update2() )
+		{
+			wnd.Kill();
+		}
 		break;
 	}
 }
@@ -75,6 +83,9 @@ void Game::ComposeFrame()
 		cam.Draw();
 		break;
 	}
+
+	quitButton.Draw( gfx );
+
 	gfx.DrawSprite( wnd.mouse.GetPosX(),
 		wnd.mouse.GetPosY(),cursorSpr,false,
 		SpriteEffect::Chroma{} );

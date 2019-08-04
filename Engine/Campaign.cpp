@@ -13,6 +13,7 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	tutorialDemon( Vec2{ -99.0f,-99.0f } )
 {
 	LoadNextLevel();
+	LoadNextLevel();
 }
 
 // void Campaign::Update()
@@ -100,12 +101,27 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 // 	}
 // }
 
-void Campaign::Update2()
+bool Campaign::Update2()
 {
 	auto dt = ft.Mark();
 	if( dt > 0.5f ) dt = 0.0f; // 0.5s lag = :(
 
 	player.Update( dt );
+
+	if( curLevel == nLevels )
+	{
+		if( textPos.y > 15.0f ) textPos.y -= textMoveSpeed * dt;
+		if( textPos.y < float( Graphics::ScreenHeight / 5 ) )
+		{
+			showQuitButton = true;
+		}
+		if( showQuitButton &&
+			quitButton.Update( mouse ) )
+		{
+			return( true );
+		}
+		return( false );
+	}
 
 	torchHandler.Update( dt );
 	if( tut.LightPlayer() ) torchHandler.LightPlayer(
@@ -200,7 +216,7 @@ void Campaign::Update2()
 						curAction = ActionType::Attack;
 					}
 					testAction = ActionType::Attack;
-					return;
+					return( false );
 				}
 			}
 			for( const auto& demon : enemySpawner.GetEnemies() )
@@ -220,7 +236,7 @@ void Campaign::Update2()
 						curAction = ActionType::Attack;
 					}
 					testAction = ActionType::Attack;
-					return;
+					return( false );
 				}
 			}
 
@@ -249,7 +265,7 @@ void Campaign::Update2()
 						curAction = ActionType::CollectKey;
 					}
 					testAction = ActionType::CollectKey;
-					return;
+					return( false );
 				}
 			}
 
@@ -267,7 +283,7 @@ void Campaign::Update2()
 					curAction = ActionType::PlaceTorch;
 				}
 				testAction = ActionType::PlaceTorch;
-				return;
+				return( false );
 			}
 
 			const auto diff = mousePos - player.GetColl().pos;
@@ -301,7 +317,7 @@ void Campaign::Update2()
 					curAction = ActionType::Jump;
 				}
 				testAction = ActionType::Jump;
-				return;
+				return( false );
 			}
 		}
 
@@ -385,6 +401,8 @@ void Campaign::Update2()
 	{
 		LoadNextLevel();
 	}
+	
+	return( false );
 }
 
 void Campaign::Draw()
@@ -410,6 +428,14 @@ void Campaign::Draw()
 	{
 		tutorialDemon.Draw( gfx );
 		tut.Draw( gfx );
+	}
+	if( curLevel == nLevels )
+	{
+		// Display you win text.
+		luckyPixel->DrawLinesCentered( winText,
+			Vei2( textPos ),Colors::White,gfx );
+
+		if( showQuitButton ) quitButton.Draw( gfx );
 	}
 
 	// gfx.DrawLine( player.GetColl().pos * TileMap::tileSize,

@@ -55,5 +55,6 @@ private:
 	const Surface cursorSpr = "Images/Cursor.bmp";
 	State gameState = State::Menu;
 	Menu menu;
+	Button quitButton = Button{ Surface{ "Images/QuitButton2.bmp" },Vei2{ Graphics::ScreenWidth - 40,10 } };
 	/********************************/
 };

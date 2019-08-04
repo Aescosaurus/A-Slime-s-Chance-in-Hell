@@ -13,6 +13,7 @@ public:
 
 	bool Update( const Mouse& mouse );
 	void Draw( Graphics& gfx ) const;
+	void DrawCentered( Graphics& gfx ) const;
 
 	const Vei2& GetPos() const;
 	bool IsHovering() const;

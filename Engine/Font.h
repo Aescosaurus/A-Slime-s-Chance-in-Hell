@@ -15,6 +15,8 @@ public:
 		Color color,Graphics& gfx ) const;
 	void DrawTextCentered( const std::string& text,
 		const Vei2& center,Color color,Graphics& gfx ) const;
+	void DrawLinesCentered( const std::vector<std::string>& lines,
+		const Vei2& center,Color color,Graphics& gfx ) const;
 	Vei2 GetGlyphSize() const;
 private:
 	RectI MapGlyphRect( char c ) const;

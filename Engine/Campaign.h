@@ -14,6 +14,7 @@
 #include "Key.h"
 #include "ProgressBar.h"
 #include "Tutorial.h"
+#include "Button.h"
 
 class Campaign
 {
@@ -21,7 +22,7 @@ public:
 	Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx );
 
 	// void Update();
-	void Update2();
+	bool Update2();
 	void Draw();
 private:
 	// void PlayerJump();
@@ -35,6 +36,24 @@ private:
 	TileMap map;
 	Player player;
 	int curLevel = -1;
+	static constexpr int nLevels = 1;
+	CFontPtr luckyPixel = FontCodex::Fetch( "Fonts/LuckyPixel6x9.bmp" );
+	const std::vector<std::string> winText =
+	{
+		"You have defeated the demons and escaped hell!",
+		"Thank you for taking the time to play this game.",
+		"I hope you had as much fun playing as I did dev'ing.",
+		"It would be awesome if you shared with your friends,",
+		"Or left an honest comment or rating.",
+		"But please don't feel obligated to do so.",
+		"Thanks again for playing, I'll see you next time!",
+		"-Aesc"
+	};
+	Vec2 textPos = Vec2( Vei2{ Graphics::GetScreenRect().GetCenter().x,
+		Graphics::ScreenHeight } );
+	static constexpr float textMoveSpeed = 15.0f;
+	Button quitButton = Button{ Surface{ "Images/QuitButton1.bmp" },Graphics::GetScreenRect().GetCenter() + Vei2::Down() * 200 - Vei2{ 43,20 } * 3 / 2 };
+	bool showQuitButton = false;
 
 	// Timer actionTimer = 1.0f;
 	// float chargePower = 0.0f;

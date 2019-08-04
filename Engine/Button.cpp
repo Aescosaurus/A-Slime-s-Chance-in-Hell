@@ -42,6 +42,21 @@ void Button::Draw( Graphics& gfx ) const
 	}
 }
 
+void Button::DrawCentered( Graphics& gfx ) const
+{
+	if( !hovering )
+	{
+		gfx.DrawSprite( pos.x,pos.y,image,true,
+			SpriteEffect::Chroma{ Colors::Magenta } );
+	}
+	else
+	{
+		gfx.DrawSprite( pos.x,pos.y,image,true,
+			SpriteEffect::SubstituteFade{ Colors::Magenta,
+			Colors::White,0.5f } );
+	}
+}
+
 const Vei2& Button::GetPos() const
 {
 	return( pos );
