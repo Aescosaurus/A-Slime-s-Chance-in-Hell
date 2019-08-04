@@ -17,7 +17,8 @@ void Player::Update( float dt )
 	{
 		vel.y += gravAcc * dt;
 		coll.pos += vel * dt;
-		if( coll.pos.y - coll.radius > float( Graphics::ScreenHeight ) )
+		if( ( coll.pos.y - coll.radius ) * TileMap::tileSize >
+			float( Graphics::ScreenHeight ) )
 		{
 			cull = true;
 		}
@@ -81,6 +82,16 @@ void Player::Update( float dt )
 		{
 			shotRefire.Reset();
 			startedShooting = false;
+		}
+	}
+
+	if( playingOuchSound )
+	{
+		ouchTimer.Update( dt );
+		if( ouchTimer.IsDone() )
+		{
+			ouchTimer.Reset();
+			playingOuchSound = false;
 		}
 	}
 }
@@ -153,6 +164,7 @@ void Player::Cull()
 	startedCull = true;
 	vel = { 0.0f,0.0f };
 	vel.y -= cullJumpPower;
+	gameOverSound->Play();
 }
 
 void Player::ShootStart()
@@ -161,6 +173,15 @@ void Player::ShootStart()
 	{
 		startedShooting = true;
 		shootStartSound->Play( 0.2f );
+	}
+}
+
+void Player::PlayOuchSound()
+{
+	if( !playingOuchSound )
+	{
+		playingOuchSound = true;
+		ouchSound->Play();
 	}
 }
 

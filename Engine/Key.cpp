@@ -30,7 +30,8 @@ void Key::Update( const TorchHandler& torchHandler,float dt )
 	{
 		vel.y += gravAcc * dt;
 		coll.pos += vel * dt;
-		if( coll.pos.y - coll.radius > float( Graphics::ScreenHeight ) )
+		if( ( coll.pos.y - coll.radius ) * TileMap::tileSize >
+			float( Graphics::ScreenHeight ) )
 		{
 			cull = true;
 		}

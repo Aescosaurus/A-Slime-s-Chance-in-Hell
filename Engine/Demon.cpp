@@ -48,6 +48,7 @@ void Demon::Draw( Graphics& gfx ) const
 void Demon::Cull()
 {
 	cull = true;
+	ouchSound->Play();
 }
 
 const Collider& Demon::GetColl() const

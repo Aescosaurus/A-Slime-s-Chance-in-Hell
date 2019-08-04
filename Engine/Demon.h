@@ -31,4 +31,5 @@ private:
 	Timer retargetTimer = 1.0f;
 	CSurfPtr sprSheet = SurfCodex::Fetch( "Images/Demon.bmp" );
 	Animation anim;
+	CSoundPtr ouchSound = SoundCodex::Fetch( "Sounds/EnemyOuch.wav" );
 };

@@ -34,6 +34,7 @@ public:
 	void Idlize();
 	void Cull();
 	void ShootStart();
+	void PlayOuchSound();
 
 	const Collider& GetColl() const;
 	bool WillCull() const;
@@ -67,4 +68,8 @@ private:
 	CSoundPtr shootStartSound = SoundCodex::Fetch( "Sounds/ShootStart.wav" );
 	bool startedShooting = false;
 	Timer shotRefire = 1.0f;
+	CSoundPtr gameOverSound = SoundCodex::Fetch( "Sounds/GameOver.wav" );
+	CSoundPtr ouchSound = SoundCodex::Fetch( "Sounds/Ouch.wav" );
+	bool playingOuchSound = false;
+	Timer ouchTimer = 1.0f;
 };

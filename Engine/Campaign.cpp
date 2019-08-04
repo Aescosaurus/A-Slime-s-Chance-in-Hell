@@ -141,16 +141,18 @@ void Campaign::Update2()
 			if( player.GetColl().IsCollidingWith(
 				enemies[i].GetColl() ) )
 			{
-				deathTimer.Update( dt );
+				hurtTimer.Update( dt );
 				collidedEnemy = true;
+				player.PlayOuchSound();
 			}
 		}
-		if( !collidedEnemy ) deathTimer.Reset();
-		if( deathTimer.IsDone() )
+		if( !collidedEnemy ) hurtTimer.Reset();
+		if( hurtTimer.IsDone() )
 		{
 			// --curLevel;
 			// LoadNextLevel();
 			player.Cull();
+			hurtTimer.Reset();
 		}
 	}
 
@@ -365,7 +367,7 @@ void Campaign::Draw()
 		actionName,gfx );
 	pb.Draw( player.GetColl().pos * TileMap::tileSize +
 		Vei2::Down() * 30,
-		deathTimer.GetPercent(),Colors::Red,
+		hurtTimer.GetPercent(),Colors::Red,
 		"Ouch",gfx );
 
 	// gfx.DrawLine( player.GetColl().pos * TileMap::tileSize,
