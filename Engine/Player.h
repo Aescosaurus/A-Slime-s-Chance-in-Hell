@@ -5,9 +5,19 @@
 #include "Graphics.h"
 #include "Collider.h"
 #include "ActionType.h"
+#include "Codex.h"
+#include "Animation.h"
+#include "Timer.h"
 
 class Player
 {
+public:
+	enum class State
+	{
+		Idle,
+		Charge,
+		Jump
+	};
 public:
 	Player( const TileMap& map );
 
@@ -19,8 +29,12 @@ public:
 	void HybridJump( const Vec2& diff );
 	// void Shoot( const Vec2& diff );
 	void Reset();
+	void ChargeJump();
+	void Idlize();
 
 	const Collider& GetColl() const;
+private:
+	void SwitchAction( State state );
 private:
 	// static constexpr float size = float( TileMap::tileSize ) / 2.0f;
 	static constexpr float radius = 0.4f;
@@ -33,4 +47,10 @@ private:
 	static constexpr float velDecayRate = 0.97f;
 	bool canJump = false;
 	static constexpr float hybridJumpPower = 29.0f;
+	CSurfPtr sprSheet = SurfCodex::Fetch( "Images/Player.bmp" );
+	Animation idle;
+	Animation charge;
+	Animation jump;
+	State action = State::Idle;
+	Timer goIdleTimer = 0.1f;
 };

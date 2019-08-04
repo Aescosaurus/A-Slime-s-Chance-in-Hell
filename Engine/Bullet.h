@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Collider.h"
+#include "Codex.h"
+#include "Animation.h"
 
 class Bullet
 {
@@ -20,4 +22,6 @@ private:
 	static constexpr float moveSpeed = 10.0f;
 	Vec2 vel;
 	bool cull = false;
+	CSurfPtr sprSheet = SurfCodex::Fetch( "Images/Bullet.bmp" );
+	Animation anim;
 };

@@ -225,23 +225,23 @@ void Campaign::Update2()
 			}
 
 			const auto diff = mousePos - player.GetColl().pos;
-			if( std::abs( diff.x ) > std::abs( diff.y ) )
-			{
-				actionName = "Jump";
-				startAction.Update( dt );
-				if( testAction != ActionType::Move )
-				{
-					startAction.Reset();
-				}
-				if( startAction.IsDone() )
-				{
-					startAction.Reset();
-					curAction = ActionType::Move;
-				}
-				testAction = ActionType::Move;
-				return;
-			}
-			else
+			// if( std::abs( diff.x ) > std::abs( diff.y ) )
+			// {
+			// 	actionName = "Jump";
+			// 	startAction.Update( dt );
+			// 	if( testAction != ActionType::Move )
+			// 	{
+			// 		startAction.Reset();
+			// 	}
+			// 	if( startAction.IsDone() )
+			// 	{
+			// 		startAction.Reset();
+			// 		curAction = ActionType::Move;
+			// 	}
+			// 	testAction = ActionType::Move;
+			// 	return;
+			// }
+			// else
 			{
 				actionName = "Jump";
 				startAction.Update( dt );
@@ -263,13 +263,20 @@ void Campaign::Update2()
 			testAction != ActionType::None )
 		{
 			chargeTimer.Update( dt );
+			if( curAction == ActionType::Jump &&
+				chargeTimer.GetPercent() > 0.2f )
+			{
+				player.ChargeJump();
+			}
 		}
 	}
 	else
 	{
+		startAction.Reset();
 		chargeTimer.Reset();
 		curAction = ActionType::None;
 		testAction = ActionType::None;
+		player.Idlize();
 	}
 
 	if( chargeTimer.IsDone() )
