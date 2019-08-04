@@ -4,6 +4,7 @@
 #include <vector>
 #include "Timer.h"
 #include "TorchHandler.h"
+#include "Codex.h"
 
 class EnemySpawner
 {
@@ -23,4 +24,5 @@ private:
 	Timer enemySpawnTimer = 2.0f;
 	static constexpr int enemiesPerWave = 3;
 	int curWaveEnemy = 0;
+	CSoundPtr enemySpawnSound = SoundCodex::Fetch( "Sounds/EnemySpawn.wav" );
 };

@@ -20,6 +20,7 @@ void EnemySpawner::Update( const Vec2& playerPos,const TorchHandler& torchHandle
 			enemySpawnTimer.Reset();
 			++curWaveEnemy;
 
+			enemySpawnSound->Play( 1.5f );
 			demons.emplace_back( Demon{ Vec2( spawnPosList[
 				int( Random{ 0,int( spawnPosList.size() - 1 ) } )] ) } );
 
