@@ -13,6 +13,7 @@
 #include "Bullet.h"
 #include "Key.h"
 #include "ProgressBar.h"
+#include "Tutorial.h"
 
 class Campaign
 {
@@ -53,10 +54,12 @@ private:
 	std::vector<Bullet> bullets;
 	std::vector<Key> keys;
 	int selectedKey = -1;
-	static constexpr float keyCollectDist = 1.5f;
+	static constexpr float keyCollectDist = 2.5f;
 	Timer hurtTimer = 1.0f;
 
 	const Surface background = "Images/Background.bmp";
 	ProgressBar pb;
 	std::string actionName = "";
+	Demon tutorialDemon;
+	Tutorial tut;
 };

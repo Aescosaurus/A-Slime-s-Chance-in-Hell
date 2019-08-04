@@ -9,7 +9,8 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	kbd( kbd ),
 	mouse( mouse ),
 	gfx( gfx ),
-	player( map )
+	player( map ),
+	tutorialDemon( Vec2{ -99.0f,-99.0f } )
 {
 	LoadNextLevel();
 }
@@ -107,8 +108,11 @@ void Campaign::Update2()
 	player.Update( dt );
 
 	torchHandler.Update( dt );
+	if( tut.LightPlayer() ) torchHandler.LightPlayer(
+		player.GetColl().pos * TileMap::tileSize );
 
 	enemySpawner.Update( player.GetColl().pos,torchHandler,dt );
+	tutorialDemon.UpdateNoMove( torchHandler,dt );
 
 	for( auto& bullet : bullets )
 	{
@@ -119,6 +123,15 @@ void Campaign::Update2()
 			if( enemy.GetColl().IsCollidingWith( bullet.GetColl() ) )
 			{
 				enemy.Cull();
+				bullet.Cull();
+			}
+		}
+
+		if( curLevel == 0 )
+		{
+			if( tutorialDemon.GetColl().IsCollidingWith( bullet.GetColl() ) )
+			{
+				tutorialDemon.SetPos( Vec2{ -99.0f,-99.0f } );
 				bullet.Cull();
 			}
 		}
@@ -162,12 +175,34 @@ void Campaign::Update2()
 		LoadNextLevel();
 	}
 
+	tut.Update( mouse.GetPos(),dt );
+
 	const auto mousePos = Vec2( mouse.GetPos() ) / TileMap::tileSize;
 
 	if( mouse.LeftIsPressed() )
 	{
 		if( curAction == ActionType::None )
 		{
+			if( curLevel == 0 )
+			{
+				if( tutorialDemon.GetColl().Contains( mousePos ) &&
+					tutorialDemon.IsVisible() )
+				{
+					actionName = "Attack";
+					startAction.Update( dt );
+					if( testAction != ActionType::Attack )
+					{
+						startAction.Reset();
+					}
+					if( startAction.IsDone() )
+					{
+						startAction.Reset();
+						curAction = ActionType::Attack;
+					}
+					testAction = ActionType::Attack;
+					return;
+				}
+			}
 			for( const auto& demon : enemySpawner.GetEnemies() )
 			{
 				if( demon.GetColl().Contains( mousePos ) &&
@@ -306,6 +341,7 @@ void Campaign::Update2()
 
 	if( chargeTimer.IsDone() )
 	{
+		tut.CompleteAction( curAction );
 		const auto diff = mousePos - player.GetColl().pos;
 
 		switch( curAction )
@@ -370,6 +406,12 @@ void Campaign::Draw()
 		hurtTimer.GetPercent(),Colors::Red,
 		"Ouch",gfx );
 
+	if( curLevel == 0 )
+	{
+		tutorialDemon.Draw( gfx );
+		tut.Draw( gfx );
+	}
+
 	// gfx.DrawLine( player.GetColl().pos * TileMap::tileSize,
 	// 	( player.GetColl().pos + ( diff * chargePower ) ) *
 	// 	TileMap::tileSize,
@@ -378,6 +420,8 @@ void Campaign::Draw()
 
 void Campaign::LoadNextLevel()
 {
+	tutorialDemon.SetPos( Vec2{ -99.0f,-99.0f } );
+
 	curAction = ActionType::None;
 	testAction = ActionType::None;
 	startAction.Reset();
@@ -399,7 +443,14 @@ void Campaign::LoadNextLevel()
 
 	for( const auto& pos : map.GetEnemySpawns() )
 	{
-		enemySpawner.AddPos( pos );
+		if( curLevel > 0 )
+		{
+			enemySpawner.AddPos( pos );
+		}
+		else
+		{
+			tutorialDemon.SetPos( pos );
+		}
 	}
 
 	for( const auto& pos : map.GetKeySpawns() )
@@ -408,7 +459,10 @@ void Campaign::LoadNextLevel()
 	}
 
 	player.Reset();
-	torchHandler.PlaceTorch( player.GetColl().pos );
+	if( curLevel > 0 )
+	{
+		torchHandler.PlaceTorch( player.GetColl().pos );
+	}
 }
 
 // void Campaign::PlayerJump()

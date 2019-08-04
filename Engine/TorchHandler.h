@@ -24,6 +24,7 @@ public:
 	void PlaceTorch( const Vec2& pos );
 	void Reset();
 	void StartPlaceTorch();
+	void LightPlayer( const Vec2& playerPos );
 
 	const std::vector<TorchItem>& GetTorches() const;
 private:

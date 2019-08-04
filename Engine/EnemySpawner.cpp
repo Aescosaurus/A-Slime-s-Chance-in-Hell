@@ -3,6 +3,7 @@
 
 void EnemySpawner::Update( const Vec2& playerPos,const TorchHandler& torchHandler,float dt )
 {
+	if( spawnPosList.size() < 1 ) return;
 	// demonSpawnTimer.Update( dt );
 	// if( demonSpawnTimer.IsDone() )
 	// {

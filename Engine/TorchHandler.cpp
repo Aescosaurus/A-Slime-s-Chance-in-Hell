@@ -82,6 +82,11 @@ void TorchHandler::StartPlaceTorch()
 	}
 }
 
+void TorchHandler::LightPlayer( const Vec2& playerPos )
+{
+	overlay.DrawCircle( Vei2( playerPos ),95,Colors::White );
+}
+
 const std::vector<TorchHandler::TorchItem>& TorchHandler::GetTorches() const
 {
 	return( torches );

@@ -34,6 +34,22 @@ void Demon::Update( const Vec2& playerPos,const TorchHandler& torchHandler,float
 	}
 }
 
+void Demon::UpdateNoMove( const TorchHandler& torchHandler,float dt )
+{
+	anim.Update( dt );
+
+	canDraw = false;
+	for( const auto& torch : torchHandler.GetTorches() )
+	{
+		if( coll.IsCollidingWith( Collider{ Vec2( torch.pos ) /
+			TileMap::tileSize,float( torch.radius ) /
+			TileMap::tileSize } ) )
+		{
+			canDraw = true;
+		}
+	}
+}
+
 void Demon::Draw( Graphics& gfx ) const
 {
 	if( canDraw )
@@ -49,6 +65,11 @@ void Demon::Cull()
 {
 	cull = true;
 	ouchSound->Play();
+}
+
+void Demon::SetPos( const Vec2& pos )
+{
+	coll.pos = pos;
 }
 
 const Collider& Demon::GetColl() const

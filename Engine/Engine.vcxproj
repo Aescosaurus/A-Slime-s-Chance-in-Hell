@@ -170,6 +170,7 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TorchHandler.h" />
+    <ClInclude Include="Tutorial.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +196,7 @@
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TorchHandler.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">

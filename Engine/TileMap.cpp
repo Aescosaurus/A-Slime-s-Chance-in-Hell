@@ -80,6 +80,11 @@ void TileMap::LoadMap( const std::string& src )
 				keySpawns.emplace_back( Vei2{ x,y } );
 				c = '0';
 			}
+			else if( c == 'd' ) // demon
+			{
+				enemySpawns.emplace_back( Vei2{ x,y } );
+				c = '0';
+			}
 
 			if( c == '1' ) c = char( int( Random{ 1,4 } ) ) + '0';
 

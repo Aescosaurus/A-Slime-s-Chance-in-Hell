@@ -14,9 +14,11 @@ public:
 	Demon( const Vec2& pos );
 
 	void Update( const Vec2& playerPos,const TorchHandler& torchHandler,float dt );
+	void UpdateNoMove( const TorchHandler& torchHandler,float dt );
 	void Draw( Graphics& gfx ) const;
 
 	void Cull();
+	void SetPos( const Vec2& pos );
 
 	const Collider& GetColl() const;
 	bool WillCull() const;
