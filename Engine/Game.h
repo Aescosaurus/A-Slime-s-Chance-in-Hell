@@ -32,6 +32,7 @@ public:
 	Game( const Game& ) = delete;
 	Game& operator=( const Game& ) = delete;
 	void Go();
+	~Game();
 private:
 	void ComposeFrame();
 	void UpdateModel();

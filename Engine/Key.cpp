@@ -52,6 +52,7 @@ void Key::Collect()
 {
 	collected = true;
 	vel.y -= jumpPower;
+	collectSound->Play();
 }
 
 const Collider& Key::GetColl() const

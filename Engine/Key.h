@@ -5,7 +5,6 @@
 #include "TorchHandler.h"
 #include "Animation.h"
 #include "Codex.h"
-#include "Sound.h"
 
 class Key
 {
@@ -31,4 +30,5 @@ private:
 	static constexpr float gravAcc = 30.0f;
 	static constexpr float jumpPower = 9.5f;
 	bool cull = false;
+	CSoundPtr collectSound = SoundCodex::Fetch( "Sounds/Key.wav" );
 };

@@ -128,7 +128,7 @@ void Player::ChargeJump()
 	{
 		jumping = true;
 		SwitchAction( State::Charge );
-		jumpSound.Play();
+		jumpSound->Play();
 	}
 }
 

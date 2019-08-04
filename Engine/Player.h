@@ -8,7 +8,7 @@
 #include "Codex.h"
 #include "Animation.h"
 #include "Timer.h"
-#include "Sound.h"
+#include "SoundEffect.h"
 
 class Player
 {
@@ -60,5 +60,6 @@ private:
 	bool cull = false;
 	bool startedCull = false;
 	static constexpr float cullJumpPower = 9.5f;
-	Sound jumpSound = L"Sounds/Jump.wav";
+	// const SoundEffect jumpSound = "Sounds/Jump.wav";
+	CSoundPtr jumpSound = SoundCodex::Fetch( "Sounds/Jump.wav" );
 };

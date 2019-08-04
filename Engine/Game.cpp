@@ -39,6 +39,11 @@ void Game::Go()
 	gfx.EndFrame();
 }
 
+Game::~Game()
+{
+	SoundCodex::Purge(); // Errors happen without this.. :(
+}
+
 void Game::UpdateModel()
 {
 	if( wnd.kbd.KeyIsPressed( VK_CONTROL ) &&
