@@ -34,6 +34,16 @@ void TorchHandler::Update( float dt )
 		return( torch.burnoutTimer.IsDone() );
 	} );
 #endif
+
+	if( placingTorch )
+	{
+		torchPlaceTimer.Update( dt );
+		if( torchPlaceTimer.IsDone() )
+		{
+			torchPlaceTimer.Reset();
+			placingTorch = false;
+		}
+	}
 }
 
 void TorchHandler::Draw( Graphics& gfx ) const
@@ -50,6 +60,8 @@ void TorchHandler::PlaceTorch( const Vec2& pos )
 	temp.pos = Vei2( pos ) * TileMap::tileSize;
 
 	torches.emplace_back( temp );
+
+	torchPlaceSound->Play( 0.5f );
 }
 
 void TorchHandler::Reset()
@@ -59,6 +71,15 @@ void TorchHandler::Reset()
 		Colors::Black );
 
 	torches.clear();
+}
+
+void TorchHandler::StartPlaceTorch()
+{
+	if( !placingTorch )
+	{
+		placingTorch = true;
+		torchChargeSound->Play( 0.5f );
+	}
 }
 
 const std::vector<TorchHandler::TorchItem>& TorchHandler::GetTorches() const

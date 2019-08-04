@@ -286,6 +286,9 @@ void Campaign::Update2()
 				case ActionType::Attack:
 					player.ShootStart();
 					break;
+				case ActionType::PlaceTorch:
+					torchHandler.StartPlaceTorch();
+					break;
 				}
 			}
 		}
@@ -338,6 +341,11 @@ void Campaign::Update2()
 		curAction = ActionType::None;
 		testAction = ActionType::None;
 		chargeTimer.Reset();
+	}
+
+	if( keys.size() == 0 )
+	{
+		LoadNextLevel();
 	}
 }
 

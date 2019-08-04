@@ -3,6 +3,7 @@
 #include "Surface.h"
 #include "Graphics.h"
 #include "Timer.h"
+#include "Codex.h"
 
 class TorchHandler
 {
@@ -22,6 +23,7 @@ public:
 
 	void PlaceTorch( const Vec2& pos );
 	void Reset();
+	void StartPlaceTorch();
 
 	const std::vector<TorchItem>& GetTorches() const;
 private:
@@ -29,4 +31,8 @@ private:
 	static constexpr float globalOpacity = 0.5f;
 	static constexpr float darkenRate = 0.2f;
 	std::vector<TorchItem> torches;
+	CSoundPtr torchChargeSound = SoundCodex::Fetch( "Sounds/TorchStart.wav" );
+	bool placingTorch = false;
+	Timer torchPlaceTimer = 1.0f;
+	CSoundPtr torchPlaceSound = SoundCodex::Fetch( "Sounds/Torch.wav" );
 };
