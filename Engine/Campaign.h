@@ -36,7 +36,7 @@ private:
 	TileMap map;
 	Player player;
 	int curLevel = -1;
-	static constexpr int nLevels = 1;
+	static constexpr int nLevels = 5;
 	CFontPtr luckyPixel = FontCodex::Fetch( "Fonts/LuckyPixel6x9.bmp" );
 	const std::vector<std::string> winText =
 	{

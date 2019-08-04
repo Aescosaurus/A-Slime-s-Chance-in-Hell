@@ -14,6 +14,9 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 {
 	LoadNextLevel();
 	LoadNextLevel();
+	LoadNextLevel();
+	LoadNextLevel();
+	LoadNextLevel();
 }
 
 // void Campaign::Update()
