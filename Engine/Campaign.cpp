@@ -18,10 +18,10 @@ Campaign::Campaign( Keyboard& kbd,Mouse& mouse,Graphics& gfx )
 	winMusicTimer.Update( 9999.0f );
 
 	// Goes to latest level (for testing).
-	for( int i = 0; i < nLevels - 1; ++i )
-	{
-		LoadNextLevel();
-	}
+	// for( int i = 0; i < nLevels - 1; ++i )
+	// {
+	// 	LoadNextLevel();
+	// }
 }
 
 // void Campaign::Update()
@@ -391,12 +391,10 @@ bool Campaign::Update2()
 		switch( curAction )
 		{
 		case ActionType::Move:
-			player.HybridJump( diff.GetNormalized() *
-				chargeTimer.GetPercent() );
+			player.HybridJump( diff );
 			break;
 		case ActionType::Jump:
-			player.HybridJump( diff.GetNormalized() *
-				chargeTimer.GetPercent() );
+			player.HybridJump( diff );
 			break;
 		case ActionType::CollectKey:
 			assert( selectedKey != -1 );

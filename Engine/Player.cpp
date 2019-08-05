@@ -127,7 +127,12 @@ void Player::HybridJump( const Vec2& diff )
 	SwitchAction( State::Jump );
 	if( canJump )
 	{
-		vel += diff * hybridJumpPower;
+		auto move = diff / 10.0f * hybridJumpPower;
+		if( move.GetLengthSq() > hybridJumpPower * hybridJumpPower )
+		{
+			move = move.GetNormalized() * hybridJumpPower;
+		}
+		vel += move;
 		// vel.x += ( diff.x / 7.0f ) * hybridJumpPower;
 		// vel.y += ( diff.y / 5.0f ) * hybridJumpPower;
 	}
