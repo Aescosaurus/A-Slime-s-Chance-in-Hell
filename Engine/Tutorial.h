@@ -32,7 +32,8 @@ private:
 		"There it is!",
 		"Find an enemy.  Click and hold to shoot it!",
 		"Good!  Looks like you're ready for the real thing.",
-		"Collect the final key to start the game."
+		"Collect the final key to start the game.",
+		""
 	};
 	std::vector<ActionType> requiredActions =
 	{
